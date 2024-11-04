@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+docker compose run \
+  --rm \
+  --workdir /var/www \
+  cms \
+  drush --root=/var/www/web "$@"
+
+#  -v $(pwd):/var/www:delegated \

@@ -1,0 +1,669 @@
+{
+  "reports": [
+    {
+      "name": "devices",
+      "frequency": "daily",
+      "slim": true,
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "deviceCategory"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "90daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "dimension": {
+              "dimensionName": "date"
+            },
+            "desc": true
+          }
+        ]
+      },
+      "meta": {
+        "name": "Devices",
+        "description": "90 days of desktop/mobile/tablet visits for all sites."
+      }
+    },
+    {
+      "name": "traffic-sources-30-days",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "30daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "dimension": {
+              "dimensionName": "date"
+            },
+            "desc": true
+          }
+        ]
+      },
+      "meta": {
+        "name": "Top Traffic Sources (30 Days)",
+        "description": "Last 30 days' Traffic Sources, measured by sessions, for all sites. "
+      }
+    },
+    {
+      "name": "os",
+      "frequency": "daily",
+      "slim": true,
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "operatingSystem"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "90daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "10"
+              }
+            }
+          }
+        },
+        "sort": "date"
+      },
+      "meta": {
+        "name": "Operating Systems",
+        "description": "90 days of visits, broken down by operating system and date, for all sites. (>100 sessions)"
+      }
+    },
+    {
+      "name": "windows",
+      "frequency": "daily",
+      "slim":true,
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "operatingSystemVersion"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "90daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "dimensionFilter": {
+          "filter": {
+            "fieldName": "operatingSystem",
+            "stringFilter": {
+              "value": "Windows"
+            }
+          }
+        },
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "10"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Windows",
+        "description": "90 days of visits from Windows users, broken down by operating system version and date, for all sites. (>100 sessions)"
+      }
+    },
+    {
+      "name": "browsers",
+      "frequency": "daily",
+      "slim":"true",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "browser"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "90daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "10"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Browsers",
+        "description": "90 days of visits broken down by browser for all sites. (>10 sessions)"
+      }
+    },
+    {
+      "name": "ie",
+      "frequency": "daily",
+      "slim":"true",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "browser"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "90daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "dimensionFilter": {
+          "filter": {
+            "fieldName": "browser",
+            "stringFilter": {
+              "value": "Internet Explorer"
+            }
+          }
+        },
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "10"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Internet Explorer",
+        "description": "90 days of visits from Internet Explorer users broken down by version for all sites. (>10 sessions)"
+      }
+    },
+    {
+      "name": "top-cities-90-days",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "city"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "totalUsers"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "90daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "totalUsers"
+            },
+            "desc": true
+          }
+        ],
+        "dimensionFilter": {
+          "andGroup": {
+            "expressions": [
+              {
+                "notExpression": {
+                  "filter": {
+                    "fieldName": "city",
+                    "stringFilter": {
+                      "value": "(other)",
+                      "caseSensitive": false
+                    }
+                  }
+                }
+              },
+              {
+                "notExpression": {
+                  "filter": {
+                    "fieldName": "city",
+                    "stringFilter": {
+                      "value": "null",
+                      "caseSensitive": false
+                    }
+                  }
+                }
+              },
+              {
+                "notExpression": {
+                  "filter": {
+                    "fieldName": "city",
+                    "stringFilter": {
+                      "value": "",
+                      "caseSensitive": false
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "meta": {
+        "name": "Top Cities (90 Days)",
+        "description": "Last 90 days' of Top cities for onsite users."
+      }
+    },
+    {
+      "name": "top-countries-90-days",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "country"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "totalUsers"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "90daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "totalUsers"
+            },
+            "desc": true
+          }
+        ]
+      },
+      "meta": {
+        "name": "Top Countries (90 Days)",
+        "description": "Last 90 days' of Top countries for onsite users."
+      }
+    },
+    {
+      "name": "top-external-links-yesterday",
+      "frequency": "hourly",
+      "query": {
+        "dimensions": [
+          {
+            "name": "pageTitle"
+          },
+          {
+            "name": "linkUrl"
+          },
+          {
+            "name": "linkDomain"
+          },
+          {
+            "name": "pagePath"
+          }
+        ],
+        "metrics": [
+          {
+            "name":"eventCount"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "yesterday",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "eventCount"
+            },
+            "desc": true
+          }
+        ],
+        "dimensionFilter": {
+          "filter": {
+            "fieldName": "eventName",
+            "stringFilter": {
+              "value": "click"
+            }
+          },
+          "filter": {
+            "fieldName": "outbound",
+            "stringFilter": {
+              "value": "true"
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "All external links yesterday",
+        "description": "Most popular external links clicked on all sites yesterday."
+      }
+    },
+    {
+      "name": "top-external-links-7-days",
+      "frequency": "hourly",
+      "query": {
+        "dimensions": [
+          {
+            "name": "pageTitle"
+          },
+          {
+            "name": "linkUrl"
+          },
+          {
+            "name": "linkDomain"
+          },
+          {
+            "name": "pagePath"
+          }
+        ],
+        "metrics": [
+          {
+            "name":"eventCount"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "7daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "eventCount"
+            },
+            "desc": true
+          }
+        ],
+        "dimensionFilter": {
+          "filter": {
+            "fieldName": "eventName",
+            "stringFilter": {
+              "value": "click"
+            }
+          },
+          "filter": {
+            "fieldName": "outbound",
+            "stringFilter": {
+              "value": "true"
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "All external links over the last week",
+        "description": "Most popular external links clicked on all sites in the last week."
+      }
+    },
+    {
+      "name": "top-external-links-30-days",
+      "frequency": "hourly",
+      "query": {
+        "dimensions": [
+          {
+            "name": "pageTitle"
+          },
+          {
+            "name": "linkUrl"
+          },
+          {
+            "name": "linkDomain"
+          },
+          {
+            "name": "pagePath"
+          }
+        ],
+        "metrics": [
+          {
+            "name":"eventCount"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "30daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "eventCount"
+            },
+            "desc": true
+          }
+        ],
+        "dimensionFilter": {
+          "filter": {
+            "fieldName": "eventName",
+            "stringFilter": {
+              "value": "click"
+            }
+          },
+          "filter": {
+            "fieldName": "outbound",
+            "stringFilter": {
+              "value": "true"
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "All external links in the last month",
+        "description": "Most popular external links clicked on all sites in the last month."
+      }
+    },
+    {
+      "name": "top-pages-7-days",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "pagePath"
+          },
+          {
+            "name": "pageTitle"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "screenPageViews"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "screenPageViews"
+            },
+            "desc": true
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "7daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "dimensionFilter": {
+          "andGroup": {
+            "expressions": [
+              {
+                "notExpression": {
+                  "filter": {
+                    "fieldName": "pagePath",
+                    "stringFilter": {
+                      "value": "/search",
+                      "caseSensitive": false
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "limit": "20"
+      },
+      "meta": {
+        "name": "Top Pages (7 Days)",
+        "description": "Last week's top 20 pages, measured by unique page views."
+      }
+    },
+    {
+      "name": "top-pages-30-days",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "pagePath"
+          },
+          {
+            "name": "pageTitle"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "screenPageViews"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "screenPageViews"
+            },
+            "desc": true
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "30daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "dimensionFilter": {
+          "andGroup": {
+            "expressions": [
+              {
+                "notExpression": {
+                  "filter": {
+                    "fieldName": "pagePath",
+                    "stringFilter": {
+                      "value": "/search",
+                      "caseSensitive": false
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "limit": "20"
+      },
+      "meta": {
+        "name": "Top Pages (30 Days)",
+        "description": "Last month's top 20 pages, measured by unique page views."
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+uuid: 03e05dce-30c9-419a-a2d7-e29e2b60c62d
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - system
+  theme:
+    - usagov
+_core:
+  default_config_hash: VB9XTfDy61Gc6OBT5HTjNKK-wDhwcxgckB81LlGopMc
+id: usagov_page_title
+theme: usagov
+region: content
+weight: -17
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: true
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      wizard: wizard
+      wizard_step: wizard_step
+  request_path:
+    id: request_path
+    negate: true
+    pages: "/welcome-usagov\r\n<front>"

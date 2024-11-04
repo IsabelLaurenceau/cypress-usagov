@@ -1,0 +1,42 @@
+uuid: 02bdd543-8b82-479d-aa95-e9ea8ba8d7cf
+langcode: en
+status: false
+dependencies:
+  content:
+    - 'block_content:html_block:07a1ba02-6d65-482b-978a-e412f0aeab0e'
+  module:
+    - block_content
+    - language
+    - node
+  theme:
+    - usagov
+id: wizardespanol
+theme: usagov
+region: content
+weight: -15
+provider: null
+plugin: 'block_content:07a1ba02-6d65-482b-978a-e412f0aeab0e'
+settings:
+  id: 'block_content:07a1ba02-6d65-482b-978a-e412f0aeab0e'
+  label: 'Wizard Espanol'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      wizard: wizard
+      wizard_step: wizard_step
+  language:
+    id: language
+    negate: false
+    context_mapping:
+      language: '@language.current_language_context:language_interface'
+    langcodes:
+      es: es

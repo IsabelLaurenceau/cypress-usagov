@@ -1,0 +1,20 @@
+FROM node:20-alpine
+USER root
+
+COPY .docker/src-reporter .
+
+RUN apk upgrade --update \
+    && apk add --no-cache --virtual .persistent-deps \
+       jq \
+       bash \
+       curl \
+       gettext
+
+RUN chmod +x /createreport.sh \
+    && npm install -g analytics-reporter
+
+WORKDIR /analytics-reporter
+RUN npm install minimist
+RUN npm install
+WORKDIR /
+CMD ["./createreport.sh"]

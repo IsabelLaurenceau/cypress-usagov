@@ -1,0 +1,24 @@
+uuid: 5f18206a-128a-4ef6-8f7f-407cb00bd8ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_header_html
+    - node.type.basic_page
+  module:
+    - allowed_formats
+    - text
+id: node.basic_page.field_header_html
+field_name: field_header_html
+entity_type: node
+bundle: basic_page
+label: 'Header HTML'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - html
+field_type: text_long

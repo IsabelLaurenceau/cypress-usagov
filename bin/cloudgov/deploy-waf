@@ -1,0 +1,209 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# we might be running in circleci
+if [ -f /home/circleci/project/env.local ]; then
+  . /home/circleci/project/env.local
+fi
+# we might be running from a local dev machine
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+if [ -f $SCRIPT_DIR/env.local ]; then
+  . $SCRIPT_DIR/env.local
+fi
+
+SCRIPT_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+if [ -f $SCRIPT_DIR/../deploy/includes ]; then
+  . $SCRIPT_DIR/../deploy/includes
+else
+    echo "File does not exist: $SCRIPT_DIR/../deploy/includes"
+    exit 1
+fi
+
+DOCKERUSER=${DOCKERUSER:-gsatts}
+DOCKERREPO=${DOCKERREPO:-usagov-2021}
+CTAG=${1:-latest}
+CDIGEST=${2:-}
+
+
+SPACE=$( cf target | grep space: | awk '{ print $2 }')
+
+# The Image digest for this tag should be looked up from cloud.gov storage
+# Any tag with a stored Image digest should be referenced by hash instead of tag
+
+# Need to create 'external-domain' service for custom routes: *.usa.gov
+# cf delete-service dev-usagov-domain
+# cf create-service external-domain domain dev-usagov-domain -c '{"domains": "cms-dev.usa.gov,beta-dev.usa.gov"}'
+# cf create-service external-domain domain-with-cdn stage-usagov-domain -c '{"domains": "cms-stage.usa.gov,beta-stage.usa.gov"}'
+# cf create-service external-domain domain-with-cdn prod-www-usagov-domain -c '{"domains": "beta.usa.gov"}'
+# cf create-service external-domain domain          prod-cms-usagov-domain -c '{"domains": "cms.usa.gov"}'
+# cf service prod-cms-usagov-domain
+
+if ! command -v jq >/dev/null; then
+  printf "\nMust have JQ installed\n"
+  exit 1
+fi
+
+if [ -z "${ROUTE_SERVICE_APP_NAME+set}" ]; then
+  printf "\nMust set ROUTE_SERVICE_APP_NAME environment variable\n"
+  ENV_ANY_NOT_SET=1
+fi
+
+if [ -z "${ROUTE_SERVICE_NAME+set}" ]; then
+  printf "\nMust set ROUTE_SERVICE_NAME environment variable\n"
+  ENV_ANY_NOT_SET=1
+fi
+
+if [ -z "${PROTECTED_APP_NAMES+set}" ]; then
+  printf "\nMust set PROTECTED_APP_NAMES environment variable\n"
+  ENV_ANY_NOT_SET=1
+fi
+
+if [ "${ENV_ANY_NOT_SET+set}" ]; then
+
+  printf "\nExample:\n"
+  printf "\tROUTE_SERVICE_APP_NAME=waf ROUTE_SERVICE_NAME=waf-route-$SPACE-usagov PROTECTED_APP_NAMES=cms,www ${0} ${CTAG} ${CDIGEST}\n"
+  exit 1
+fi
+
+printf "\nFetching APPS_DOMAIN\n"
+APPS_DOMAIN=$(cf curl "/v3/domains" | jq -r '[.resources[] | select(.name|endswith("usa.gov"))][0].name')
+printf "\tAPPS_DOMAIN: $APPS_DOMAIN\n"
+
+printf "\nFetching ROUTE_DOMAIN\n"
+ROUTE_DOMAIN=$(cf curl "/v3/domains" | jq -r '[.resources[] | select(.name|endswith("app.cloud.gov"))][0].name')
+printf "\tROUTE_DOMAIN: $ROUTE_DOMAIN\n"
+
+printf "\nFetching APP_SPACE\n"
+APP_SPACE=$( cf target | grep space: | awk '{ print $2 }')
+printf "\tAPP_SPACE: $APP_SPACE\n"
+
+# remove existing HTTP proxy variables, if any. (This will probably change one day.)
+if existsCFApp $ROUTE_SERVICE_APP_NAME; then
+  # existsCFApp will print an appropriate message if the app does not exist.
+  # If the app doesn't exist, this is likely a first deployment in this space.
+  cf set-env $ROUTE_SERVICE_APP_NAME http_proxy  ""
+  cf set-env $ROUTE_SERVICE_APP_NAME https_proxy ""
+  cf set-env $ROUTE_SERVICE_APP_NAME HTTPS_PROXY ""
+  cf set-env $ROUTE_SERVICE_APP_NAME HTTP_PROXY ""
+fi
+
+# Space-specific configuration. Prod gets multiple instances.
+# IP_ALLOW_ALL_CMS should be set to 0 to restrict access to the CMS  to IP_ALLOWED
+# (defined elsewhere, includes GSA firewall and Salesforce automation), 1 to allow all.
+# IP_ALLOW_ALL_WWW does the same, but for the static site.
+instances="-i 1"
+IP_ALLOW_ALL_CMS=0
+IP_ALLOW_ALL_WWW=0
+if [ "$APP_SPACE" == "prod" ]; then
+    instances="-i 2"
+    IP_ALLOW_ALL_CMS=1
+    IP_ALLOW_ALL_WWW=1
+elif [ "$APP_SPACE" == "stage" ]; then
+    instances="-i 1"
+    IP_ALLOW_ALL_CMS=1
+    IP_ALLOW_ALL_WWW=1
+# Defaults are appropriate for dev and any other dev-like space.
+fi
+
+if ! existsCFApp $ROUTE_SERVICE_APP_NAME; then
+  echo "WARNING: You will need re-run this script to apply the correct firewall rules"
+  #exit ### <-- to test, uncomment this exit statement and pass "zaf" as $ROUTE_SERVICE_APP_NAME
+else
+  # remove proxy
+    cf set-env $ROUTE_SERVICE_APP_NAME IP_ALLOW_ALL_CMS $IP_ALLOW_ALL_CMS
+    cf set-env $ROUTE_SERVICE_APP_NAME IP_ALLOW_ALL_WWW $IP_ALLOW_ALL_WWW
+fi
+
+
+# launch the app
+if [ -z "$CDIGEST" ]; then
+  echo "Deploying ${DOCKERUSER}/${DOCKERREPO}:waf-${CTAG}"
+  if [ -z "$DOCKERHUB_ACCESS_TOKEN" ]; then
+      cf push "${ROUTE_SERVICE_APP_NAME}" $instances --no-start \
+      --var app-name="${ROUTE_SERVICE_APP_NAME}" \
+      --docker-image ${DOCKERUSER}/${DOCKERREPO}:waf-${CTAG}
+  else
+    CF_DOCKER_PASSWORD=$DOCKERHUB_ACCESS_TOKEN \
+      cf push "${ROUTE_SERVICE_APP_NAME}" $instances --no-start \
+      --var app-name="${ROUTE_SERVICE_APP_NAME}" \
+      --docker-image ${DOCKERUSER}/${DOCKERREPO}:waf-${CTAG} \
+      --docker-username $DOCKERHUB_USERNAME
+  fi
+else
+    echo "Deploying ${DOCKERUSER}/${DOCKERREPO} waf-${CTAG} via digest ${CDIGEST}"
+  if [ -z "$DOCKERHUB_ACCESS_TOKEN" ]; then
+    cf push "${ROUTE_SERVICE_APP_NAME}" $instances --no-start \
+    --var app-name="${ROUTE_SERVICE_APP_NAME}" \
+    --docker-image ${DOCKERUSER}/${DOCKERREPO}${CDIGEST}
+  else
+    CF_DOCKER_PASSWORD=$DOCKERHUB_ACCESS_TOKEN \
+    cf push "${ROUTE_SERVICE_APP_NAME}" $instances --no-start \
+    --var app-name="${ROUTE_SERVICE_APP_NAME}" \
+    --docker-image ${DOCKERUSER}/${DOCKERREPO}${CDIGEST} \
+    --docker-username $DOCKERHUB_USERNAME
+  fi
+
+fi
+
+cf create-route app.cloud.gov --hostname $ROUTE_SERVICE_NAME
+cf map-route "$ROUTE_SERVICE_APP_NAME" app.cloud.gov --hostname $ROUTE_SERVICE_NAME
+
+cf set-env "${ROUTE_SERVICE_APP_NAME}" ALLOWED_IPS "$(printf "%s" "${NGINX_ALLOW_STATEMENTS:-}")"
+cf start "${ROUTE_SERVICE_APP_NAME}"
+
+printf "\nFetching GUIDs for protected-app & route-service-app\n"
+
+ROUTE_SERVICE_APP_GUID="$(cf app ${ROUTE_SERVICE_APP_NAME} --guid)"
+printf "\troute-service-app (${ROUTE_SERVICE_APP_NAME}): ${ROUTE_SERVICE_APP_GUID}\n"
+
+ROUTE_SERVICE_DOMAIN="$(cf curl "/v3/apps/$(cf app "${ROUTE_SERVICE_APP_NAME}" --guid)/routes" | jq -r --arg ROUTE_DOMAIN "${ROUTE_DOMAIN}" '[.resources[] | select(.url | endswith($ROUTE_DOMAIN))][0].url')"
+
+printf "\nFetching route-service-domain\n"
+printf "\troute-service-domain: $ROUTE_SERVICE_DOMAIN\n"
+
+if cf curl "/v3/service_instances?type=user-provided&names=${ROUTE_SERVICE_NAME}" | jq -e '.pagination.total_results == 0' > /dev/null; then
+
+  printf "\nCreating route-service\n"
+
+  cf create-user-provided-service \
+    "${ROUTE_SERVICE_NAME}" \
+    -r "https://${ROUTE_SERVICE_DOMAIN}";
+else
+  printf "\nUpdating route-service\n"
+
+  cf update-user-provided-service \
+    "${ROUTE_SERVICE_NAME}" \
+    -r "https://${ROUTE_SERVICE_DOMAIN}";
+fi
+
+#PROTECTED_APP_NAMES="Ubuntu;Linux Mint;Debian;Arch;Fedora"
+
+IFS=',' read -ra app_names_array <<< "$PROTECTED_APP_NAMES"
+
+#Print the split string
+for PROTECTED_APP_NAME in "${app_names_array[@]}"
+do
+
+  PROTECTED_APP_GUID="$(cf app ${PROTECTED_APP_NAME} --guid)"
+  printf "\tprotected-app (${PROTECTED_APP_NAME}): ${PROTECTED_APP_GUID}\n"
+
+  printf "\nBinding [ ${PROTECTED_APP_NAME} ] routes to [ ${ROUTE_SERVICE_NAME} ]\n"
+
+  HOST_NAMES=($(cf curl "/v3/apps/$PROTECTED_APP_GUID/routes" | jq -r --arg APPS_DOMAIN "${APPS_DOMAIN}" '[.resources[] | select(.url | endswith($APPS_DOMAIN))][].host'))
+
+  for url in "${HOST_NAMES[@]}"; do
+    echo "\nBinding ${url}.${APPS_DOMAIN} to ${ROUTE_SERVICE_NAME}\n"
+    cf bind-route-service "${APPS_DOMAIN}" "${ROUTE_SERVICE_NAME}" --hostname "${url}";
+    if [ $(echo "$url" | grep 'cms') ]; then
+      cf set-env $ROUTE_SERVICE_APP_NAME CMS_HOST "$url"
+    elif [ $(echo "$url" | grep 'beta') ]; then
+      cf set-env $ROUTE_SERVICE_APP_NAME WWW_HOST "$url"
+    fi
+  done
+
+  cf add-network-policy $ROUTE_SERVICE_APP_NAME $PROTECTED_APP_NAME -s $SPACE -o gsa-tts-usagov  --protocol tcp --port 443
+  cf add-network-policy $ROUTE_SERVICE_APP_NAME $PROTECTED_APP_NAME -s $SPACE -o gsa-tts-usagov  --protocol tcp --port 80
+  cf add-network-policy $ROUTE_SERVICE_APP_NAME $PROTECTED_APP_NAME -s $SPACE -o gsa-tts-usagov  --protocol tcp --port 61443
+done
+
+#$SCRIPT_DIR/setup-egress-for-apps waf

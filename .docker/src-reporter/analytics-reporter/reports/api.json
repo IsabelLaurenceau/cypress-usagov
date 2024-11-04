@@ -1,0 +1,710 @@
+{
+  "reports": [
+    {
+      "name": "device",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "deviceCategory"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Devices",
+        "description": "Desktop/mobile/tablet visits"
+      }
+    },
+    {
+      "name": "language",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "languageCode"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Browser Languages",
+        "description": "Browser languages of visiting browsers"
+      }
+    },
+    {
+      "name": "device-model",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "mobileDeviceModel"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Device Models",
+        "description": "Device models of visiting devices"
+      }
+    },
+    {
+      "name": "os",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "operatingSystem"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Operating Systems",
+        "description": "Operating systems of visiting devices"
+      }
+    },
+    {
+      "name": "windows",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "operatingSystemVersion"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "dimensionFilter": {
+          "filter": {
+            "fieldName": "operatingSystem",
+            "stringFilter": {
+              "value": "Windows"
+            }
+          }
+        },
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Windows",
+        "description": "Operating system of visiting windows devices"
+      }
+    },
+    {
+      "name": "browser",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "browser"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Browsers",
+        "description": "Browsers of visiting users"
+      }
+    },
+    {
+      "name": "os-browser",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "browser"
+          },
+          {
+            "name": "operatingSystem"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "OS-browser combinations",
+        "description": "Visits broken down by browser and OS for all sites"
+      }
+    },
+    {
+      "name": "windows-browser",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "browser"
+          },
+          {
+            "name": "operatingSystemVersion"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "dimensionFilter": {
+          "filter": {
+            "fieldName": "operatingSystem",
+            "stringFilter": {
+              "value": "Windows"
+            }
+          }
+        },
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Windows-browser combinations",
+        "description": "Visits broken down by Windows versions and browser for all sites"
+      }
+    },
+    {
+      "name": "domain",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "hostName"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Domains",
+        "description": "Number of visitors for a given domain"
+      }
+    },
+    {
+      "name": "traffic-source",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "sessionSource"
+          },
+          {
+            "name": "sessionDefaultChannelGroup"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Top Traffic Sources",
+        "description": "Visitors for a given traffic source"
+      }
+    },
+    {
+      "name": "second-level-domain",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "hostName"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "dimensionFilter": {
+          "filter": {
+            "fieldName": "hostName",
+            "stringFilter": {
+              "matchType": "FULL_REGEXP",
+              "value": "^[^\\.]+\\.[^\\.]+$",
+              "caseSensitive": false
+            }
+          }
+        },
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Participating second-level domains.",
+        "description": "Visits to participating second-level domains"
+      }
+    },
+    {
+      "name": "site",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "hostName"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "sessions"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "sessions"
+            },
+            "desc": true
+          }
+        ],
+        "metricFilter": {
+          "filter": {
+            "fieldName": "sessions",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Participating hostnames.",
+        "description": "Visits to participating hostnames"
+      }
+    },
+    {
+      "name": "download",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [
+          {
+            "name": "date"
+          },
+          {
+            "name": "pageTitle"
+          },
+          {
+            "name": "eventName"
+          },
+          {
+            "name": "fileName"
+          },
+          {
+            "name": "fullPageUrl"
+          }
+        ],
+        "metrics": [
+          {
+            "name": "eventCount"
+          }
+        ],
+        "dateRanges": [
+          {
+            "startDate": "3daysAgo",
+            "endDate": "yesterday"
+          }
+        ],
+        "orderBys": [
+          {
+            "metric": {
+              "metricName": "eventCount"
+            },
+            "desc": true
+          }
+        ],
+        "dimensionFilter": {
+          "filter": {
+            "fieldName": "eventName",
+            "stringFilter": {
+              "matchType": "FULL_REGEXP",
+              "value": "^(file_download|download|downloads|(outbound downloads))$",
+              "caseSensitive": false
+            }
+          },
+          "andGroup": {
+            "expressions": [
+              {
+                "notExpression": {
+                  "filter": {
+                    "fieldName": "fileName",
+                    "stringFilter": {
+                      "matchType": "PARTIAL_REGEXP",
+                      "value": ".*\\\\.(zip|doc)\\b.*",
+                      "caseSensitive": false
+                    }
+                  }
+                }
+              },
+              {
+                "notExpression": {
+                  "filter": {
+                    "fieldName": "fullPageUrl",
+                    "stringFilter": {
+                      "matchType": "PARTIAL_REGEXP",
+                      "value": ".*\\busps\\.com\\b.*",
+                      "caseSensitive": false
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "metricFilter": {
+          "filter": {
+            "fieldName": "eventCount",
+            "numericFilter": {
+              "operation": "GREATER_THAN",
+              "value": {
+                "int64Value": "100"
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "name": "Downloads",
+        "description": "Number of download events"
+      }
+    }
+  ]
+}

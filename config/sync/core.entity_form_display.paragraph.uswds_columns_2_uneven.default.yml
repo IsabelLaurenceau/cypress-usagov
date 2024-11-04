@@ -1,0 +1,46 @@
+uuid: 1ea71342-1645-48bc-af43-aeff339d1735
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.uswds_columns_2_uneven.field_2_column_grid
+    - field.field.paragraph.uswds_columns_2_uneven.field_column_content_2_uneven
+    - field.field.paragraph.uswds_columns_2_uneven.field_grid_gap
+    - paragraphs.paragraphs_type.uswds_columns_2_uneven
+  module:
+    - paragraphs
+_core:
+  default_config_hash: cycHLiQvmBl9-m6b7J95zY7nu-jKP_d_ipZk_8qR3Ws
+id: paragraph.uswds_columns_2_uneven.default
+targetEntityType: paragraph
+bundle: uswds_columns_2_uneven
+mode: default
+content:
+  field_2_column_grid:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_column_content_2_uneven:
+    type: entity_reference_paragraphs
+    weight: 2
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: text_field
+    third_party_settings: {  }
+  field_grid_gap:
+    type: boolean_checkbox
+    weight: 0
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

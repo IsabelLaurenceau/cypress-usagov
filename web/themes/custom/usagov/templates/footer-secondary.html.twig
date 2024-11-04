@@ -1,0 +1,92 @@
+
+{% if node.langcode.value == "es" %}
+  {% set translations = {
+    'contact_center': 'Centro de llamadas de USAGov',
+    'ask_a_question': 'Haga una pregunta a USAGov en Español al',
+    'phone_URL': '/es/llamenos',
+    'find_us': 'Encuéntrenos en las  redes sociales',
+    'social_media_usernames': ['usagovespanol', 'usagovespanol', 'USAgovespanol']
+  } %}
+{% else %}
+  {% set translations = {
+    'contact_center': 'USAGov Contact Center',
+    'ask_a_question': 'Ask USA.gov a question at',
+    'phone_URL': '/phone',
+    'find_us': 'Find us on social media',
+    'social_media_usernames': ['USAgov', 'USAgov', 'usagov1', 'usagov']
+  } %}
+{% endif %}
+
+{% set social_media_details = [
+	{
+		'name':'Facebook',
+		'url':'https://www.facebook.com/',
+		'icon':'Facebook_Icon.svg',
+		'alt_text':'Facebook USAGov',
+	},
+	{
+		'name':'Twitter',
+		'url':'https://twitter.com/',
+		'icon':'X_Twitter_Icon.svg',
+		'alt_text':'X Twitter USAGov',
+	},
+	{
+		'name':'YouTube',
+		'url':'https://www.youtube.com/',
+		'icon':'YouTube_Icon.svg',
+		'alt_text':'Youtube USAGov',
+	},
+	{
+		'name':'Instagram',
+		'url':'https://www.instagram.com/',
+		'icon':'Instagram_Icon.svg',
+		'alt_text':'Instagram USAGov',
+	}
+] %}
+
+<div class="usa-footer__secondary-section">
+	<div class="grid-container">
+		<div class="grid-row grid-gap">
+			<div class="usa-footer__logo grid-row mobile-lg:grid-col-6">
+				<div id="footer-phone">
+					<div class="mobile-lg:grid-col-auto">
+						<h4 class="usa-footer__logo-heading">
+							{{ translations.contact_center }}
+						</h4>
+					</div>
+					<div class="mobile-lg:grid-col-auto">
+						<p class="footer-question">
+							{{ translations.ask_a_question }}
+						</p>
+						<address class="usa-footer__address">
+							<div class="usa-footer__contact-info">
+								<a href="{{ translations.phone_URL }}">1-844-USAGOV1 (1-844-872-4681)</a>
+							</div>
+						</address>
+					</div>
+				</div>
+			</div>
+			<div class="usa-footer__contact-links mobile-lg:grid-col-6">
+				<div class="footer-social-block">
+					<h4 class="usa-footer__contact-heading">
+						{{ translations.find_us }}
+					</h4>
+					<div class="usa-footer__social-links en-links grid-row grid-gap-1">
+
+						{% for username in translations.social_media_usernames %}
+							{% set details = social_media_details[loop.index0] %}
+							<div class="grid-col-auto">
+								<a class="usa-social-link" href="{{ details.url }}{{ username }}">
+									<img class="image-svg-test" src="/themes/custom/usagov/images/social-media-icons/{{ details.icon }}" alt="{{ details.alt_text }}" loading="lazy"/>
+									<span>{{ details.name }}</span>
+								</a>
+							</div>
+						{% endfor %}
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+# This script will attempt to store a container image on docker hub
+# to be used when launching cloud.gov images
+#
+
+DOCKERUSER=${DOCKERUSER:-gsatts}
+DOCKERREPO=${DOCKERREPO:-usagov-2021}
+
+CONTAINERTAG=${1}
+CONTAINERTAG2=${2}
+
+if [ -z "$CONTAINERTAG" ]
+then
+      echo "Must specify a container tag to push"
+      exit 1;
+fi;
+
+echo "docker push $DOCKERUSER/$DOCKERREPO:cms-$CONTAINERTAG"
+docker push $DOCKERUSER/$DOCKERREPO:cms-$CONTAINERTAG
+if [ -n "$CONTAINERTAG2" ]
+then
+    echo "docker push $DOCKERUSER/$DOCKERREPO:cms-$CONTAINERTAG2"
+    docker push $DOCKERUSER/$DOCKERREPO:cms-$CONTAINERTAG2
+fi
+
+echo "docker push $DOCKERUSER/$DOCKERREPO:waf-$CONTAINERTAG"
+docker push $DOCKERUSER/$DOCKERREPO:waf-$CONTAINERTAG
+if [ -n "$CONTAINERTAG2" ]
+then
+    echo "docker push $DOCKERUSER/$DOCKERREPO:waf-$CONTAINERTAG2"
+    docker push $DOCKERUSER/$DOCKERREPO:waf-$CONTAINERTAG2
+fi
+
+echo "docker push $DOCKERUSER/$DOCKERREPO:www-$CONTAINERTAG"
+docker push $DOCKERUSER/$DOCKERREPO:www-$CONTAINERTAG
+if [ -n "$CONTAINERTAG2" ]
+then
+    echo "docker push $DOCKERUSER/$DOCKERREPO:www-$CONTAINERTAG2"
+    docker push $DOCKERUSER/$DOCKERREPO:www-$CONTAINERTAG2
+fi

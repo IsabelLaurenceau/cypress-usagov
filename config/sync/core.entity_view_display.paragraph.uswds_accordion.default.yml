@@ -1,0 +1,26 @@
+uuid: eafe411d-028e-4142-bc11-e6f9e8aaccd2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.uswds_accordion.field_accordion_section
+    - paragraphs.paragraphs_type.uswds_accordion
+  module:
+    - entity_reference_revisions
+_core:
+  default_config_hash: fV_4y_WnnVgAGuIOmpbaNz1c6zGAQ04Qgizk-q8dOmw
+id: paragraph.uswds_accordion.default
+targetEntityType: paragraph
+bundle: uswds_accordion
+mode: default
+content:
+  field_accordion_section:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

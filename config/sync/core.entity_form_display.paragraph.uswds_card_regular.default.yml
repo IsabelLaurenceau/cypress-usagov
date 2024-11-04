@@ -1,0 +1,164 @@
+uuid: 6685f061-280f-4ed2-bc83-73cdf2a285a3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.uswds_card_regular.field_button
+    - field.field.paragraph.uswds_card_regular.field_card_breakpoints
+    - field.field.paragraph.uswds_card_regular.field_card_image
+    - field.field.paragraph.uswds_card_regular.field_card_title
+    - field.field.paragraph.uswds_card_regular.field_extend_media
+    - field.field.paragraph.uswds_card_regular.field_indent_media
+    - field.field.paragraph.uswds_card_regular.field_make_card_link
+    - field.field.paragraph.uswds_card_regular.field_number_of_columns
+    - field.field.paragraph.uswds_card_regular.field_text
+    - field.field.paragraph.uswds_card_regular.field_title_first
+    - paragraphs.paragraphs_type.uswds_card_regular
+  module:
+    - field_group
+    - link
+    - media_library
+    - paragraphs
+    - text
+third_party_settings:
+  field_group:
+    group_media_features:
+      children:
+        - field_indent_media
+        - field_extend_media
+        - field_card_image
+      label: 'Media Features'
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+    group_link_features:
+      children:
+        - field_make_card_link
+        - field_button
+      label: 'Link Features'
+      region: content
+      parent_name: ''
+      weight: 4
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+    group_title_features:
+      children:
+        - field_title_first
+        - field_card_title
+      label: 'Title Features'
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+    group_body_features:
+      children:
+        - field_text
+      label: 'Body Features'
+      region: content
+      parent_name: ''
+      weight: 3
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+id: paragraph.uswds_card_regular.default
+targetEntityType: paragraph
+bundle: uswds_card_regular
+mode: default
+content:
+  field_button:
+    type: link_default
+    weight: 7
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_card_breakpoints:
+    type: entity_reference_paragraphs
+    weight: 0
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: closed
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: uswds_card_breakpoints
+    third_party_settings: {  }
+  field_card_image:
+    type: media_library_widget
+    weight: 6
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_card_title:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_extend_media:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_indent_media:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_make_card_link:
+    type: boolean_checkbox
+    weight: 6
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_text:
+    type: text_textarea
+    weight: 4
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_title_first:
+    type: boolean_checkbox
+    weight: 2
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_number_of_columns: true
+  status: true

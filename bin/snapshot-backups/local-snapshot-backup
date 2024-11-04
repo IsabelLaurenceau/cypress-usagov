@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+
+# we might be running in circleci
+if [ -f /home/circleci/project/env.local ]; then
+  . /home/circleci/project/env.local
+fi
+# we might be running from a local dev machine
+SCRIPT_DIR="$(dirname "$0")"
+if [ -f $SCRIPT_DIR/env.local ]; then
+  . $SCRIPT_DIR/env.local
+fi
+if [ -f ./env.local ]; then
+  . ./env.local
+fi
+if [ -f $SCRIPT_DIR/../deploy/includes ]; then
+  . $SCRIPT_DIR/../deploy/includes
+else
+   echo Cannot find $SCRIPT_DIR/../deploy/includes
+   exit 1
+fi
+
+# just testing?
+if [ x$1 = x"--dryrun" ]; then
+  echo=echo
+  dryrun=$1
+  shift
+fi
+
+needsSpaceSSHDisabled=0
+if ! isSpaceSSHEnabled $startspace; then
+  enableSpaceSSH $startspace
+  if [ "$?" -ne "0" ]; then
+      assertSpaceSSHEnabled $startspace
+  fi
+  needsSpaceSSHDisabled=1
+fi
+
+TOME_DISABLED_STATE=$(cf ssh cms -c ". /etc/profile; drush sget usagov.tome_run_disabled")
+
+SPACE=${1:-please-provide-space-name-as-first-argument}
+SPACE=$(echo "$SPACE" | tr '[:upper:]' '[:lower:]')
+assertCurSpace $SPACE
+shift
+
+TICKET_ID=$1
+if [ -z "$TICKET_ID" ]; then
+  echo "Usage: $0 <env> <jira ticket> <cci build id>"
+  echo "This will attempt to backup the s3 backup of the database to $SPACE"
+  exit 1
+fi
+shift
+
+SUFFIX=$1
+if [ -z "$SUFFIX" ]; then
+  echo "Usage: $0 <env> <jira ticket> <cci build id> <suffix>"
+  echo "This will attempt to backup the current state of the database, static site and public files in $SPACE"
+  exit 1
+fi
+shift
+
+DOWNLOAD=$1
+
+RETVAL=0
+echo "Tome Disabled State: [$TOME_DISABLED_STATE]"
+if [ "$TOME_DISABLED_STATE" != 1 ]; then
+  echo bin/deploy/try-tome-disable
+  bin/deploy/try-tome-disable
+  RETVAL=$?
+else
+  echo Already disabled
+fi
+
+if [ "$RETVAL" = "0" ]; then
+  $echo bin/snapshot-backups/stw $SPACE $TICKET_ID $SUFFIX db-dump-to-snapshot
+  $echo bin/snapshot-backups/stw $SPACE $TICKET_ID $SUFFIX site-snapshot-create
+  $echo bin/snapshot-backups/stw $SPACE $TICKET_ID $SUFFIX public-snapshot-create
+  if [ x$echo = x ]; then
+    if [ "$TOME_DISABLED_STATE" != 1 ]; then
+      bin/deploy/try-tome-enable
+    fi
+  fi
+  if [ x"$DOWNLOAD" = "x--download" ]; then
+    $echo bin/snapshot-backups/local-snapshot-download $SPACE $TICKET_ID $SUFFIX
+  fi
+else
+  echo "Did not run backup scripts.  Retval of tome check was: '  $RETVAL'"
+fi
+
+if [ $needsSpaceSSHDisabled != 0 ]; then
+   cf disallow-space-ssh $startspace
+fi

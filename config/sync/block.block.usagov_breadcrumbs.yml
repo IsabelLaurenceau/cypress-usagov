@@ -1,0 +1,26 @@
+uuid: 0119babf-4021-43cb-9f05-46727083c684
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - usagov
+_core:
+  default_config_hash: zmSylWX_H47w9_8vvV6QbQOwS5ofXlj5ercaIGknWC4
+id: usagov_breadcrumbs
+theme: usagov
+region: breadcrumb
+weight: -100
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: '<front>'

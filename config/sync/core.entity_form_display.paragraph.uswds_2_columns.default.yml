@@ -1,0 +1,68 @@
+uuid: 88473751-aae8-4824-b82d-18ccd55dbe89
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.uswds_2_columns.field_2_column_content
+    - field.field.paragraph.uswds_2_columns.field_column_grid_gap
+    - field.field.paragraph.uswds_2_columns.field_uswds_2_column_breakpoints
+    - paragraphs.paragraphs_type.uswds_2_columns
+  module:
+    - field_group
+    - paragraphs
+third_party_settings:
+  field_group:
+    group_breakpoints:
+      children:
+        - field_uswds_2_column_breakpoints
+      label: Breakpoints
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+        effect: none
+id: paragraph.uswds_2_columns.default
+targetEntityType: paragraph
+bundle: uswds_2_columns
+mode: default
+content:
+  field_2_column_content:
+    type: entity_reference_paragraphs
+    weight: 3
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: text_field
+    third_party_settings: {  }
+  field_column_grid_gap:
+    type: boolean_checkbox
+    weight: 2
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_uswds_2_column_breakpoints:
+    type: entity_reference_paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

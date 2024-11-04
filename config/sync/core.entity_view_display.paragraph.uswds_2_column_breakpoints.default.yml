@@ -1,0 +1,31 @@
+uuid: e5245389-2b26-4ec1-9e2a-c0f8aa3e2403
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.uswds_2_column_breakpoints.field_2_column_grid_options
+    - field.field.paragraph.uswds_2_column_breakpoints.field_uswds_breakpoints
+    - paragraphs.paragraphs_type.uswds_2_column_breakpoints
+  module:
+    - options
+id: paragraph.uswds_2_column_breakpoints.default
+targetEntityType: paragraph
+bundle: uswds_2_column_breakpoints
+mode: default
+content:
+  field_2_column_grid_options:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_uswds_breakpoints:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

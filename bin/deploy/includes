@@ -1,0 +1,338 @@
+#!/bin/bash
+
+export SCRIPT_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+export INCLUDE_PATH="${SCRIPT_DIR}/$(basename "$0")"
+export LOGS_DIR="$SCRIPT_DIR/logs"
+export SCRIPT_ROOT="$(dirname $SCRIPT_DIR)"
+export REPO_ROOT="$(dirname $SCRIPT_ROOT)"
+export YMDHMS=$(date +"%Y_%m_%d_%H_%M_%S")
+
+function assertRequires() {
+  for cmd in $@; do
+    if ! command -v $cmd &> /dev/null; then
+      echo "ERROR: $cmd is required"
+      exit 1
+    fi
+  done
+}
+
+### everything after this assumes we have the cf CLI installed
+assertRequires cf
+
+function activeCFLogin() {
+
+  ### cf target still works after the auth token has expired, leading
+  ### this function returning a false positive. cf orgs will fail properly
+  ###cf target &> /dev/null
+  cf orgs &> /dev/null
+  return $?
+}
+
+function assertActiveCFLogin() {
+  if ! activeCFLogin; then
+     echo "ERROR: No active CF login"
+     exit 1
+  fi
+}
+
+### Do this before we execute 'cf target', so that we don't get double error messages
+assertActiveCFLogin
+
+startbranch=$( command -v git &> /dev/null && git rev-parse --abbrev-ref HEAD || echo "" )
+# Grab the starting space and org where the command was run
+startorg=$(     cf target | grep org:   | awk '{ print $2 }')
+startspace=$( cf target | grep space: | awk '{ print $2 }')
+# Drop them off where we found them
+function popspace() {
+  if [ -n "$startorg" ] && [ -n "$startspace" ]; then
+    echo "Popspace: ${startorg}/${startspace}"
+    cf target -o "$startorg" -s "$startspace" > /dev/null 2>&1
+  fi
+}
+function popbranch() {
+  if [ -n "$startbranch" ]; then
+    echo "Popbranch: $startbranch"
+    git checkout "$startbranch" > /dev/null 2>&1
+  fi
+}
+# trap pops on exit
+# trap popspace err
+# trap popbranch err
+
+mkdir -p $LOGS_DIR
+
+if [ -f $REPO_ROOT/env.local ]; then
+  . $REPO_ROOT/env.local
+fi
+
+function getOrg() {
+  echo $(cf target | grep org: | awk '{ print $2 }')
+}
+
+function getOrgGUID() {
+  ORG=$1
+  echo $(cf org $ORG --guid)
+}
+
+function getSpaceGUID() {
+  space=$1
+  echo $(cf space $space --guid)
+}
+
+function envEmpty() { # list of env vars
+  if [ -z "$1" ]; then # if zero length varname
+    return 0; # true
+  fi
+  eval val="\${$1}"
+  if [ -z "$val" ]; then # if zero length value
+    return 0; # true
+  fi
+  return 1; # false
+}
+
+function assertEnv() { # list of env vars
+  for var in "$@"; do
+    if envEmpty $var; then
+      echo "ERROR: Env var '$var' is empty"
+      exit 1; #false
+    fi
+  done
+}
+
+function envVarsSet() { # list of env vars
+  for var in "$@"; do
+    if envEmpty $var; then
+      return 1; #false
+    fi
+  done
+  return 0; # true
+}
+
+function getApproval() { # prompt message
+  prompt=${1:-"Continue?"}
+  read -r -p "$prompt [y/N] " response
+  case "$response" in
+    [yY][eE][sS]|[yY])
+        return 0
+        ;;
+    *)
+        return 1
+        ;;
+  esac
+}
+
+function pauseForInput() { # prompt message
+  prompt=${1:-"Pausing ..."}
+  read -r -n 1 -p "$prompt [press any key to continue] "
+  return 0
+}
+
+function toLogs() { # input and/or param string
+  if [ -n "$@" ]; then
+    echo "$@" | tee -a $LOGS_DIR/$(basename "$0").log
+  fi
+  head=$(dd bs=1 count=1 2>/dev/null; echo a)
+  head=${head%a}
+  if [ "x$head" != x"" ]; then
+    { printf %s "$head"; cat; } | tee -a $LOGS_DIR/$(basename "$0").log
+  fi
+}
+
+function clearLogs() {
+  echo | tee $LOGS_DIR/$(basename "$0").log
+}
+
+function assertBranch() { # desired branch
+  desiredBranch=${1}
+  if [ x${desiredBranch} != x$startbranch ]; then
+      echo "ERROR: Current branch ($startbranch) is not $desiredBranch"
+      exit 1; #false
+  fi
+}
+
+function assertCFApp() { # desired app name
+  desiredApp=$1
+  if ! cf app $desiredApp &> /dev/null; then
+      echo "ERROR: CF app '$desiredApp' does not exist in the current CF space"
+      exit 1; #false
+  fi
+}
+
+function existsCFApp() { # desired app name
+  desiredApp=$1
+  if ! cf app $desiredApp &> /dev/null; then
+      echo "NOTICE: CF app '$desiredApp' does not exist in the current CF space"
+      return 1; #false
+  fi
+}
+
+function assertCFService() { # desired service name
+  desiredService=$1
+  if ! cf service $desiredService &> /dev/null; then
+      echo "ERROR: CF service '$desiredService' does not exist in the current CF space"
+      exit 1; #false
+  fi
+}
+
+function existsCFService() { # desired service name
+  desiredService=$1
+  if ! cf service $desiredService &> /dev/null; then
+      echo "ERROR: CF service '$desiredService' does not exist in the current CF space"
+      return 1; #false
+  fi
+}
+
+function bindCFService() {
+  appname=${1}
+  service=${2}
+  if existsCFService $service &> /dev/null; then
+    echo "Binding $appname with $service"
+    cf bind-service $appname $service
+    retval=$?
+  else
+    echo "Cannot bind $appname with non-existant service $service"
+    retval=1
+  fi
+  return $retval
+}
+
+function assertSpace() { # desired space
+  desiredSpace=${1}
+  if [ x${desiredSpace} != x$startspace ]; then
+      echo "ERROR: Current space ($startspace) is not $desiredSpace"
+      exit 1; #false
+  fi
+}
+
+function assertCurSpace() { # desired space
+  currentSpace=$( cf target | grep space: | awk '{ print $2 }')
+  desiredSpace=${1}
+  if [ x${desiredSpace} != x$currentSpace ]; then
+      echo "ERROR: Current space ($currentSpace) is not $desiredSpace"
+      exit 1; #false
+  fi
+}
+
+function assertSpaceExists() { # desired space
+  desiredSpace=$1
+  if ! cf space $desiredSpace &> /dev/null; then
+      echo "ERROR: CF space '$desiredSpace' does not exist!"
+      exit 1; #false
+  fi
+}
+
+function spaceCCIContainerTag() {
+  desiredSpace=${1}
+  assertSpace $desiredSpace
+  tmpMotd=$(mktemp /tmp/motd.${desiredSpace}.XXXXXX)
+  cf ssh cms -c "cat /etc/motd" > $tmpMotd
+    if [ -s $tmpMotd ]; then
+        CONTAINER_TAG=$(grep containertag $tmpMotd | sed 's/containertag\:[[:space:]]*//' | sed 's/^[[:space:]]*//')
+        if [ -n $CONTAINER_TAG ]; then
+            echo ${desiredSpace}.$CONTAINER_TAG
+            rm -f $tmpMotd
+        else
+            echo "Failed to extract containertag from $SPACE motd file"
+            rm -f $tmpMotd
+            exit 1
+        fi
+    else
+        echo "Failed to retreive motd file from $SPACE"
+        rm -f $tmpMotd
+        exit 2
+    fi
+}
+
+function createAssertedBackupTag() {
+   desiredSpace=$1
+   desiredBranch=$2
+
+   assertSpace $desiredSpace
+   assertBranch $desiredBranch
+
+  CONTAINER_TAG=$(spaceCCIContainerTag $desiredSpace)
+  BACKUP_TAG=${BRANCH}.${CONTAINER_TAG}
+
+  TAG_SUFFIX=$3
+  if [ x$TAG_SUFFIX != x ]; then
+    BACKUP_TAG=${BACKUP_TAG}.${TAG_SUFFIX}
+  fi
+
+  #echo Space:                      $desiredSpace
+  #echo CCI Deployed Container Tag: $CONTAINER_TAG
+  #echo
+  #echo Branch:                     $desiredBranch
+  #echo Optional Suffix:            $TAG_SUFFIX
+  #echo
+  #echo Created Backup Tag:         $BACKUP_TAG
+  #echo
+
+  echo $BACKUP_TAG
+}
+
+function createSpaceAssertedBackupTag() {
+   desiredSpace=$1
+   desiredBranch=$2
+
+   assertSpace $desiredSpace
+
+  CONTAINER_TAG=$(spaceCCIContainerTag $desiredSpace)
+  BACKUP_TAG=${desiredBranch}.${CONTAINER_TAG}
+
+  TAG_SUFFIX=$3
+  if [ x$TAG_SUFFIX != x ]; then
+    BACKUP_TAG=${BACKUP_TAG}.${TAG_SUFFIX}
+  fi
+
+  #echo Space:                      $desiredSpace
+  #echo CCI Deployed Container Tag: $CONTAINER_TAG
+  #echo
+  #echo Branch:                     $desiredBranch
+  #echo Optional Suffix:            $TAG_SUFFIX
+  #echo
+  #echo Created Backup Tag:         $BACKUP_TAG
+  #echo
+
+  echo $BACKUP_TAG
+}
+
+function isSpaceSSHEnabled() {
+   sshSpace=$1
+   cf space-ssh-allowed $sshSpace | grep enabled &> /dev/null
+   return $?
+}
+
+function assertSpaceSSHEnabled() {
+  sshSpace=$1
+  if ! isSpaceSSHEnabled $sshSpace; then
+    echo "ERROR: SSH is not enabled for space: $sshSpace."
+    exit 1
+  fi
+}
+
+function enableSpaceSSH() {
+   sshSpace=$1
+   cf allow-space-ssh $sshSpace
+   return $?
+}
+
+function disableSpaceSSH() {
+   sshSpace=$1
+   cf disallow-space-ssh $sshSpace
+   return $?
+}
+
+function assertIsImageDigest() {
+  VAL=${1:-"no string provided"}
+  IFS=':' read -ra DIGEST <<< "$VAL"
+  for fieldpart in "${DIGEST[@]}"; do
+    re1='^\@(sha[0-9]+|md[2-5])$'
+    re2='^[0-9A-Fa-f]+$'
+    if ! [[ $fieldpart =~ $re1 ]]; then
+      if ! [[ $fieldpart =~ $re2 ]]; then
+        echo "Invalid digest string '$VAL' (error at '$fieldpart')"
+        exit 1
+      fi
+    fi
+  done
+}

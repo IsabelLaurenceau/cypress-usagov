@@ -1,0 +1,23 @@
+uuid: cac00278-5c31-4e22-b082-501abf056ad0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.basic_page
+  module:
+    - text
+id: node.basic_page.body
+field_name: body
+entity_type: node
+bundle: basic_page
+label: Body
+description: "Steps to paste from Google Docs\r\n<ol>\r\n<li>Copy content from Google Doc</li>\r\n<li>Go to <a href=\"https://htmltidy.net/\">HTML Tidy</a></li>\r\n<li>Paste the content into the left side of HTML Tidy</li>\r\n<li>Click the \"Tidy\" button above the right side</li>\r\n<li>Copy the code from the right side of HTML Tidy</li>\r\n<li>In the WYSIWYG editor above, enter source mode by clicking the \"Source\" button</li>\r\n<li>Paste the code copied from HTML Tidy</li>\r\n<li>Return to WYSIWYG mode by clicking the \"Source\" button again</li>\r\n<li>Finish any other steps needed before publishing the page</li>\r\n</ol>"
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

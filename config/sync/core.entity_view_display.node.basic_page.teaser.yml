@@ -1,0 +1,104 @@
+uuid: fb8955e2-9383-465f-885a-079976eb99db
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.basic_page.body
+    - field.field.node.basic_page.field_50_state_pages_type
+    - field.field.node.basic_page.field_benefit_search_weight
+    - field.field.node.basic_page.field_benefits_callout_button
+    - field.field.node.basic_page.field_benefits_callout_descr
+    - field.field.node.basic_page.field_benefits_callout_ref
+    - field.field.node.basic_page.field_benefits_category
+    - field.field.node.basic_page.field_benefits_life_events_descr
+    - field.field.node.basic_page.field_benefits_life_events_id
+    - field.field.node.basic_page.field_benefits_life_events_title
+    - field.field.node.basic_page.field_benefits_search_descr
+    - field.field.node.basic_page.field_benefits_search_id
+    - field.field.node.basic_page.field_benefits_search_title
+    - field.field.node.basic_page.field_css_icon
+    - field.field.node.basic_page.field_custom_twig_content
+    - field.field.node.basic_page.field_exclude_from_contact_cente
+    - field.field.node.basic_page.field_faq_page
+    - field.field.node.basic_page.field_footer_html
+    - field.field.node.basic_page.field_for_contact_center_only
+    - field.field.node.basic_page.field_header_html
+    - field.field.node.basic_page.field_hero_links
+    - field.field.node.basic_page.field_hide_page_intro
+    - field.field.node.basic_page.field_homepage_banner
+    - field.field.node.basic_page.field_homepage_benefits_button
+    - field.field.node.basic_page.field_homepage_benefits_descr
+    - field.field.node.basic_page.field_homepage_benefits_ref
+    - field.field.node.basic_page.field_homepage_benefits_title
+    - field.field.node.basic_page.field_homepage_top_links
+    - field.field.node.basic_page.field_is_navigation_page
+    - field.field.node.basic_page.field_language_toggle
+    - field.field.node.basic_page.field_meta_description
+    - field.field.node.basic_page.field_navigation_banner_image
+    - field.field.node.basic_page.field_page_intro
+    - field.field.node.basic_page.field_page_type
+    - field.field.node.basic_page.field_short_description
+    - node.type.basic_page
+  module:
+    - text
+    - user
+id: node.basic_page.teaser
+targetEntityType: node
+bundle: basic_page
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_50_state_pages_type: true
+  field_benefit_search_weight: true
+  field_benefits_callout_button: true
+  field_benefits_callout_descr: true
+  field_benefits_callout_ref: true
+  field_benefits_category: true
+  field_benefits_life_events_descr: true
+  field_benefits_life_events_id: true
+  field_benefits_life_events_title: true
+  field_benefits_search_descr: true
+  field_benefits_search_id: true
+  field_benefits_search_title: true
+  field_css_icon: true
+  field_custom_twig_content: true
+  field_exclude_from_contact_cente: true
+  field_faq_page: true
+  field_footer_html: true
+  field_for_contact_center_only: true
+  field_header_html: true
+  field_hero_links: true
+  field_hide_page_intro: true
+  field_homepage_banner: true
+  field_homepage_benefits_button: true
+  field_homepage_benefits_descr: true
+  field_homepage_benefits_ref: true
+  field_homepage_benefits_title: true
+  field_homepage_top_links: true
+  field_is_navigation_page: true
+  field_language_toggle: true
+  field_meta_description: true
+  field_navigation_banner_image: true
+  field_page_intro: true
+  field_page_type: true
+  field_short_description: true
+  langcode: true

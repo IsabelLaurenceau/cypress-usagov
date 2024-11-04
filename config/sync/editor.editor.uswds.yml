@@ -1,0 +1,92 @@
+uuid: 948722dd-5242-4c6a-b205-4a518863af30
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.uswds
+  module:
+    - ckeditor5
+format: uswds
+editor: ckeditor5
+settings:
+  toolbar:
+    items:
+      - bold
+      - italic
+      - underline
+      - alignment
+      - outdent
+      - indent
+      - removeFormat
+      - '|'
+      - heading
+      - style
+      - '|'
+      - link
+      - '|'
+      - bulletedList
+      - numberedList
+      - '-'
+      - blockQuote
+      - drupalMedia
+      - '|'
+      - sourceEditing
+      - '|'
+      - insertTable
+      - paragraphs
+  plugins:
+    ckeditor5_alignment:
+      enabled_alignments:
+        - center
+        - justify
+        - left
+        - right
+    ckeditor5_heading:
+      enabled_headings:
+        - heading1
+        - heading2
+        - heading3
+        - heading4
+    ckeditor5_list:
+      properties:
+        reversed: true
+        startIndex: true
+      multiBlock: true
+    ckeditor5_sourceEditing:
+      allowed_tags:
+        - '<div data-*>'
+        - '<a role>'
+    ckeditor5_style:
+      styles:
+        -
+          label: Intro
+          element: '<p class="usa-intro">'
+        -
+          label: 'Wizard H2'
+          element: '<h2 class="font-serif-lg text-bold text-accent-cool-darker">'
+        -
+          label: Button
+          element: '<a class="usa-button usa-button--secondary usa-button--big">'
+    ckeditor_media_resize_mediaResize:
+      apply_image_styles: true
+      image_styles:
+        - cke_media_resize_small
+        - cke_media_resize_medium
+        - cke_media_resize_large
+        - cke_media_resize_xl
+    media_media:
+      allow_view_mode_override: true
+    uswds_ckeditor_integration_ckeditor5_overrides:
+      override_lists: false
+      override_links: false
+      override_tables: true
+    uswds_ckeditor_integration_ckeditor5_table_content_items:
+      table_content_items: true
+image_upload:
+  status: false
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

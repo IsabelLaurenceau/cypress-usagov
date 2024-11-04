@@ -1,0 +1,9 @@
+uuid: 9a2cad48-f63d-4849-84cd-57167ad48810
+langcode: en
+status: true
+dependencies: {  }
+name: 'USWDS Breakpoints'
+vid: uswds_breakpoints
+description: 'breakpoints pulled directly from USWDS.'
+weight: 0
+new_revision: false

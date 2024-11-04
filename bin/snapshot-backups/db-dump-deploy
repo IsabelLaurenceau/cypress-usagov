@@ -1,0 +1,82 @@
+#!/bin/sh
+
+# we might be running in circleci
+if [ -f /home/circleci/project/env.local ]; then
+  . /home/circleci/project/env.local
+fi
+# we might be running from a local dev machine
+SCRIPT_DIR="$(dirname "$0")"
+if [ -f $SCRIPT_DIR/env.local ]; then
+  . $SCRIPT_DIR/env.local
+fi
+if [ -f ./env.local ]; then
+  . ./env.local
+fi
+
+if ! command -v cf &> /dev/null
+then
+    echo "CF : the cloud foundry client could not be found and is required"
+    exit 1
+fi
+if [ -f $SCRIPT_DIR/../deploy/includes ]; then
+  . $SCRIPT_DIR/../deploy/includes
+else
+   echo Cannot find $SCRIPT_DIR/../deploy/includes
+   exit 1
+fi
+
+# just testing?
+if [ x$1 = x"--dryrun" ]; then
+  export echo=echo
+  dryrun=$1
+  shift
+fi
+
+SPACE=${1:-please-provide-space-name-as-first-argument}
+SPACE=$(echo "$SPACE" | tr '[:upper:]' '[:lower:]')
+assertCurSpace $SPACE
+shift
+
+DEPLOY_TAG=${1}
+#SPACE=$(cf target | grep space: | awk '{ print $2 }')
+
+SSH_ALLOWED=$(cf space-ssh-allowed $SPACE | grep enabled)
+if [[  x$SSH_ALLOWED == x ]]; then
+  echo Cloud Foundry ssh to $SPACE is not enabled - exiting
+  exit 1
+fi
+
+TIR=0
+if [ -z "$echo" ]; then
+cf ssh cms -c /var/www/scripts/tome-running-check.sh && TIR=1
+  if [ $TIR != 0 ]; then
+    echo Tome is running in the target environment.  Please try again momentarily
+    exit 1
+  fi
+fi
+
+if [ -z "$DEPLOY_TAG" ]; then
+  echo "Usage: $0 <tag>"
+  echo "This will attempt to deploy the s3 backup of the database to $SPACE"
+  exit 1
+fi
+
+#PREFIX=usagov-${DEPLOY_TAG}-${SPACE}
+SQL_FILE=${DEPLOY_TAG}.sql
+GZIP_FILE=$SQL_FILE.gz
+
+if [ ! -f $GZIP_FILE ]; then
+  echo $SCRIPT_DIR/db-snapshot-download $dryrun $SPACE $DEPLOY_TAG
+  $SCRIPT_DIR/db-snapshot-download $dryrun $SPACE $DEPLOY_TAG
+  if [ ! -f $GZIP_FILE ]; then
+    if [ x$echo = x ]; then
+      echo Cannot locate $GZIP_FILE
+      exit 2
+    fi
+  fi
+fi
+
+echo "Attempting to deploy database backup $GZIP_FILE to $SPACE"
+
+$echo gunzip -c $GZIP_FILE | sed 's/^\/\*\!999999\\\-.*$//' | gzip | cf ssh cms -c "cat - > /tmp/$GZIP_FILE"
+$echo cf ssh cms -c "if [ -f /tmp/$GZIP_FILE ]; then . /etc/profile; drush sql-drop -y; zcat /tmp/$GZIP_FILE | drush sql-cli; drush cr; fi"

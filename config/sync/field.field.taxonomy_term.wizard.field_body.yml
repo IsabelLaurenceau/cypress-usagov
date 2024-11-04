@@ -1,0 +1,26 @@
+uuid: 03a68aac-61ad-4faa-8f89-537e17917b59
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_body
+    - filter.format.html
+    - filter.format.uswds
+    - taxonomy.vocabulary.wizard
+  module:
+    - text
+id: taxonomy_term.wizard.field_body
+field_name: field_body
+entity_type: taxonomy_term
+bundle: wizard
+label: Body
+description: "<p>Steps to paste from Google Docs</p>\r\n<ol>\r\n<li>Copy content from Google Doc</li>\r\n<li>Go to HTML Tidy</li>\r\n<li>Paste the content into the left side of HTML Tidy</li>\r\n<li>Click the \"Tidy\" button above the right side</li>\r\n<li>Copy the code from the right side of HTML Tidy</li>\r\n<li>In the WYSIWYG editor above, enter source mode by clicking the \"Source\" button</li>\r\n<li>Paste the code copied from HTML Tidy</li>\r\n<li>Return to WYSIWYG mode by clicking the \"Source\" button again</li>\r\n<li>Finish any other steps needed before publishing the page</li>\r\n</ol>"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - uswds
+    - html
+field_type: text_long

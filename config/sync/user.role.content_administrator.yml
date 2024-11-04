@@ -1,0 +1,233 @@
+uuid: d5ea4e32-f48e-443b-970c-12f0ec587b3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.modal
+    - block_content.type.site_banner
+    - media.type.audio
+    - media.type.file
+    - media.type.image
+    - media.type.remote_video
+    - media.type.video
+    - node.type.agency_synonym
+    - node.type.basic_page
+    - node.type.bears_agency
+    - node.type.bears_benefit
+    - node.type.bears_criteria
+    - node.type.bears_life_event
+    - node.type.bears_life_event_form
+    - node.type.directory_record
+    - node.type.state_directory_record
+    - node.type.wizard
+    - node.type.wizard_step
+    - taxonomy.vocabulary.benefits_category
+    - taxonomy.vocabulary.wizard
+    - workflows.workflow.basic_workflow
+  module:
+    - block_content
+    - content_lock
+    - content_moderation
+    - content_translation
+    - devel
+    - media
+    - menu_link_content
+    - node
+    - paragraphs
+    - paragraphs_entity_embed
+    - path
+    - redirect
+    - simple_sitemap
+    - system
+    - taxonomy
+    - toolbar
+    - usa_content_moderation_notifications
+    - usagov_benefit_category_search
+id: content_administrator
+label: 'Content Administrator'
+weight: 5
+is_admin: null
+permissions:
+  - 'access administration pages'
+  - 'access block library'
+  - 'access content overview'
+  - 'access devel information'
+  - 'access media overview'
+  - 'access site in maintenance mode'
+  - 'access taxonomy overview'
+  - 'access toolbar'
+  - 'add paragraphs entity embed'
+  - 'administer menu'
+  - 'administer nodes'
+  - 'administer redirect settings'
+  - 'administer redirects'
+  - 'administer sitemap settings'
+  - 'administer taxonomy'
+  - 'break content lock'
+  - 'change benefit page weights'
+  - 'create agency_synonym content'
+  - 'create audio media'
+  - 'create basic_page content'
+  - 'create bears_agency content'
+  - 'create bears_benefit content'
+  - 'create bears_criteria content'
+  - 'create bears_life_event content'
+  - 'create bears_life_event_form content'
+  - 'create content translations'
+  - 'create directory_record content'
+  - 'create file media'
+  - 'create image media'
+  - 'create media'
+  - 'create modal block content'
+  - 'create remote_video media'
+  - 'create site_banner block content'
+  - 'create state_directory_record content'
+  - 'create terms in benefits_category'
+  - 'create terms in wizard'
+  - 'create url aliases'
+  - 'create video media'
+  - 'create wizard content'
+  - 'create wizard_step content'
+  - 'delete agency_synonym revisions'
+  - 'delete all revisions'
+  - 'delete any agency_synonym content'
+  - 'delete any audio media'
+  - 'delete any basic_page content'
+  - 'delete any bears_agency content'
+  - 'delete any bears_benefit content'
+  - 'delete any bears_criteria content'
+  - 'delete any bears_life_event content'
+  - 'delete any bears_life_event_form content'
+  - 'delete any directory_record content'
+  - 'delete any file media'
+  - 'delete any image media'
+  - 'delete any media'
+  - 'delete any modal block content'
+  - 'delete any modal block content revisions'
+  - 'delete any remote_video media'
+  - 'delete any site_banner block content'
+  - 'delete any site_banner block content revisions'
+  - 'delete any state_directory_record content'
+  - 'delete any video media'
+  - 'delete any wizard content'
+  - 'delete any wizard_step content'
+  - 'delete basic_page revisions'
+  - 'delete bears_agency revisions'
+  - 'delete bears_benefit revisions'
+  - 'delete bears_criteria revisions'
+  - 'delete bears_life_event revisions'
+  - 'delete bears_life_event_form revisions'
+  - 'delete content translations'
+  - 'delete directory_record revisions'
+  - 'delete media'
+  - 'delete own audio media'
+  - 'delete own basic_page content'
+  - 'delete own bears_agency content'
+  - 'delete own bears_benefit content'
+  - 'delete own bears_criteria content'
+  - 'delete own bears_life_event content'
+  - 'delete own bears_life_event_form content'
+  - 'delete own directory_record content'
+  - 'delete own file media'
+  - 'delete own image media'
+  - 'delete own remote_video media'
+  - 'delete own state_directory_record content'
+  - 'delete own video media'
+  - 'delete own wizard content'
+  - 'delete own wizard_step content'
+  - 'delete paragraphs entity embed'
+  - 'delete state_directory_record revisions'
+  - 'delete term revisions in wizard'
+  - 'delete terms in benefits_category'
+  - 'delete terms in wizard'
+  - 'delete wizard revisions'
+  - 'delete wizard_step revisions'
+  - 'edit any agency_synonym content'
+  - 'edit any audio media'
+  - 'edit any basic_page content'
+  - 'edit any bears_agency content'
+  - 'edit any bears_benefit content'
+  - 'edit any bears_criteria content'
+  - 'edit any bears_life_event content'
+  - 'edit any bears_life_event_form content'
+  - 'edit any directory_record content'
+  - 'edit any file media'
+  - 'edit any image media'
+  - 'edit any modal block content'
+  - 'edit any remote_video media'
+  - 'edit any site_banner block content'
+  - 'edit any state_directory_record content'
+  - 'edit any video media'
+  - 'edit any wizard content'
+  - 'edit any wizard_step content'
+  - 'edit own audio media'
+  - 'edit own basic_page content'
+  - 'edit own bears_agency content'
+  - 'edit own bears_benefit content'
+  - 'edit own bears_criteria content'
+  - 'edit own bears_life_event content'
+  - 'edit own bears_life_event_form content'
+  - 'edit own directory_record content'
+  - 'edit own file media'
+  - 'edit own image media'
+  - 'edit own remote_video media'
+  - 'edit own state_directory_record content'
+  - 'edit own video media'
+  - 'edit own wizard content'
+  - 'edit own wizard_step content'
+  - 'edit paragraphs entity embed'
+  - 'edit terms in benefits_category'
+  - 'edit terms in wizard'
+  - 'revert agency_synonym revisions'
+  - 'revert all revisions'
+  - 'revert any modal block content revisions'
+  - 'revert any site_banner block content revisions'
+  - 'revert basic_page revisions'
+  - 'revert bears_agency revisions'
+  - 'revert bears_benefit revisions'
+  - 'revert bears_criteria revisions'
+  - 'revert bears_life_event revisions'
+  - 'revert bears_life_event_form revisions'
+  - 'revert directory_record revisions'
+  - 'revert state_directory_record revisions'
+  - 'revert term revisions in wizard'
+  - 'revert wizard revisions'
+  - 'revert wizard_step revisions'
+  - 'translate agency_synonym node'
+  - 'translate any entity'
+  - 'translate basic_page node'
+  - 'translate directory_record node'
+  - 'translate editable entities'
+  - 'translate menu_link_content'
+  - 'translate state_directory_record node'
+  - 'update any media'
+  - 'update content translations'
+  - 'update media'
+  - 'usa content moderation notify own content'
+  - 'use basic_workflow transition archive'
+  - 'use basic_workflow transition create_new_draft'
+  - 'use basic_workflow transition move_to_review'
+  - 'use basic_workflow transition publish'
+  - 'use basic_workflow transition restore'
+  - 'view agency_synonym revisions'
+  - 'view all media revisions'
+  - 'view all revisions'
+  - 'view any modal block content history'
+  - 'view any site_banner block content history'
+  - 'view any unpublished content'
+  - 'view basic_page revisions'
+  - 'view bears_agency revisions'
+  - 'view bears_benefit revisions'
+  - 'view bears_criteria revisions'
+  - 'view bears_life_event revisions'
+  - 'view bears_life_event_form revisions'
+  - 'view directory_record revisions'
+  - 'view latest version'
+  - 'view own unpublished content'
+  - 'view own unpublished media'
+  - 'view state_directory_record revisions'
+  - 'view term revisions in wizard'
+  - 'view the administration theme'
+  - 'view unpublished paragraphs'
+  - 'view wizard revisions'
+  - 'view wizard_step revisions'

@@ -1,0 +1,43 @@
+uuid: 0ba9c71d-a947-451b-bd94-e4e16b2cbdad
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.wizard.body
+    - field.field.node.wizard.field_footer_html
+    - field.field.node.wizard.field_for_contact_center_only
+    - field.field.node.wizard.field_header_html
+    - field.field.node.wizard.field_language_toggle
+    - field.field.node.wizard.field_meta_description
+    - field.field.node.wizard.field_wizard_step
+    - node.type.wizard
+  module:
+    - text
+    - user
+id: node.wizard.teaser
+targetEntityType: node
+bundle: wizard
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_footer_html: true
+  field_for_contact_center_only: true
+  field_header_html: true
+  field_language_toggle: true
+  field_meta_description: true
+  field_wizard_step: true
+  langcode: true
