@@ -9,4 +9,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: hoverkraft-tech/compose-action@v2.0.1
         with:
-          compose-file: ".docker/Dockerfile-cypress"
+          compose-file: "../../.docker/Dockerfile-cypress"
