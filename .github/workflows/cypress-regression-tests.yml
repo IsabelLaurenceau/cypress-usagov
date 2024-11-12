@@ -1,12 +1,12 @@
-name: Test in Docker
+name: End-to-end tests
 on: push
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
-    # Cypress Docker image from https://hub.docker.com/r/cypress
-    # with browsers pre-installed
     steps:
-      - uses: actions/checkout@v4
-      - uses: hoverkraft-tech/compose-action@v2.0.1
-        with:
-          compose-file: "../../.docker/Dockerfile-cypress"
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
