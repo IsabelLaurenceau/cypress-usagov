@@ -9,8 +9,8 @@ jobs:
       - name: Start usagov server - Make the script files executable
         run: chmod +x bin/init
       #can i make bin/init faster/cached for this?
-      # - name: Run bin init
-      #   run:  bin/init
+      - name: Run bin init
+        run:  bin/init
       - name: Docker Compose Up
         run: docker compose up & sleep 60
       #  run:  bin/cypress-ssh
