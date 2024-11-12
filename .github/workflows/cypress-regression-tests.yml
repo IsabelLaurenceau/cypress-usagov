@@ -1,31 +1,12 @@
-name: Cypress Tests using Cypress Docker Image
-
+name: Test in Docker
 on: push
-
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
-    container:
-      container_name: cypress
-      build:
-        context: ./
-        dockerfile: .docker/Dockerfile-cypress
-      env_file:
-        - ./env.local
-        - ./env.local.cypress
-      volumes:
-        - ./automated_tests/e2e-cypress:/app/e2e-cypress
-        - /tmp/.X11-unix:/tmp/.X11-unix
-      working_dir: /app/e2e-cypress
-      command: /app/start.sh
-      networks:
-        - gsa-gov
+    # Cypress Docker image from https://hub.docker.com/r/cypress
+    # with browsers pre-installed
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
+      - uses: actions/checkout@v4
+      - uses: hoverkraft-tech/compose-action@v2.0.1
         with:
-          build: npm run build
-          start: npm start
-          browser: chrome
+          compose-file: ".docker/Dockerfile-cypress"
