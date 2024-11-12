@@ -8,7 +8,7 @@ jobs:
         uses: actions/checkout@v4
         #start usagov server
       - name: Start usagov server - Make the script files executable
-        uses: chmod +x bin/init
+        run: chmod +x bin/init
       - name: Run bin init
         run:  bin/init
       # Install npm dependencies, cache them correctly
