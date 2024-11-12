@@ -1,7 +1,8 @@
 name: End-to-end tests
 on: push
 jobs:
-  cypress-run:
+  set-up:
+    name: setup
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -13,12 +14,16 @@ jobs:
         run:  bin/init
       - name: Docker Compose Up
         run: docker compose up & sleep 60
+  cypress-run:
+    name: test
+    runs-on: ubuntu-22.04
+    needs: setup
+    steps:
       - name: Go to cypress directory
         run: bin/cypress-ssh
       - name: Run cypress in shell
         run: npx cypress run --spec cypress/e2e
-      #bin/cypress-ssh
-      #npx cypress run --spec cypress/e2e
+
 
 
       # Install npm dependencies, cache them correctly
