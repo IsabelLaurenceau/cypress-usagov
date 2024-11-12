@@ -1,7 +1,7 @@
 name: End-to-end tests
 on: push
 jobs:
-  set-up:
+  setup:
     name: setup
     runs-on: ubuntu-22.04
     steps:
@@ -15,9 +15,9 @@ jobs:
       - name: Docker Compose Up
         run: docker compose up & sleep 60
   cypress-run:
-    name: test
+    name: cypress-run
     runs-on: ubuntu-22.04
-    needs: setup
+    needs: set-up
     steps:
       - name: Go to cypress directory
         run: bin/cypress-ssh
