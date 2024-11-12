@@ -11,6 +11,9 @@ jobs:
         run: chmod +x bin/init
       - name: Run bin init
         run:  bin/init
+      - name: Docker Compose Up
+        run: docker compose up
+
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
