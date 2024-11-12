@@ -6,24 +6,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        #start usagov server
       - name: Start usagov server - Make the script files executable
         run: chmod +x bin/init
       #can i make bin/init faster/cached for this?
       - name: Run bin init
         run:  bin/init
       - name: Docker Compose Up
-        run: docker compose up &
-      - name: Wait for Docker compose up to finish
-        run: sleep 60
+        run: docker compose up & bin/cypress-ssh
+      - name: Run cypress in shell
+        run: npx cypress run --spec cypress/e2e
       #bin/cypress-ssh
       #npx cypress run --spec cypress/e2e
 
 
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          working-directory: automated_tests/e2e-cypress
+      # - name: Cypress run
+      #   uses: cypress-io/github-action@v6
+      #   with:
+      #     working-directory: automated_tests/e2e-cypress
           #stuck- Cypress could not verify that this server is running: > http://cms-usagov.docker.local; We are verifying this server because it has been configured as your baseUrl.
