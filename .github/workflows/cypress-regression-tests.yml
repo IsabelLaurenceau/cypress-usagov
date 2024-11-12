@@ -17,7 +17,7 @@ jobs:
   cypress-run:
     name: cypress-run
     runs-on: ubuntu-22.04
-    needs: set-up
+    needs: setup
     steps:
       - name: Go to cypress directory
         run: bin/cypress-ssh
