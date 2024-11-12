@@ -13,6 +13,7 @@ jobs:
         run:  bin/init
       - name: Docker Compose Up
         run: docker compose up & sleep 60
+      # - name: Go to cypress directory
       #  run:  bin/cypress-ssh
       # - name: Run cypress in shell
       #   run: npx cypress run --spec cypress/e2e
