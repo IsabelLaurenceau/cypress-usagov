@@ -12,3 +12,4 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           working-directory: automated_tests/e2e-cypress
+          #stuck- Cypress could not verify that this server is running: > http://cms-usagov.docker.local; We are verifying this server because it has been configured as your baseUrl.
