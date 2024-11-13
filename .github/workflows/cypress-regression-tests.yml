@@ -1,39 +1,27 @@
 name: End-to-end tests
 on: push
 jobs:
-  setup:
-    name: setup
+  run-regression-tests:
+    name: run-regression-tests
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install wait-on
-        run: npm install wait-on -g
-      - name: Start usagov server
-        run: |
-          chmod +x bin/init
-          bin/init
-      - name: Docker Compose Up
-        run: |
-          nohup docker compose up &
-          wait-on http://localhost:80
-      - name: Update database
-        run: |
-          bin/db-update
-          bin/drupal-update
+      # - name: Install wait-on
+      #   run: npm install wait-on -g
+      # - name: Start usagov server
+      #   run: |
+      #     chmod +x bin/init
+      #     bin/init
+      # - name: Docker Compose Up
+      #   run: |
+      #     nohup docker compose up &
+      #     wait-on http://localhost:80
+      # - name: Update database
+      #   run: |
+      #     bin/db-update
+      #     bin/drupal-update
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
           working-directory: automated_tests/e2e-cypress
-      # - name: Run cypress in shell
-      #   run: npx cypress run --spec cypress/e2e
-
-
-
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      # - name: Cypress run
-      #   uses: cypress-io/github-action@v6
-      #   with:
-      #     working-directory: automated_tests/e2e-cypress
-          #stuck- Cypress could not verify that this server is running: > http://cms-usagov.docker.local; We are verifying this server because it has been configured as your baseUrl.
