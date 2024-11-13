@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "cypress-mochawesome-reporter": "^3.6.0",
-    "cypress-real-events": "^1.10.3",
-    "wait-on":"^8.0.0"
+    "cypress-real-events": "^1.10.3"
   }
 }
