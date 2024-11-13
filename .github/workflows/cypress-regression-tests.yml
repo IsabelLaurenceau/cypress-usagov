@@ -25,3 +25,4 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           working-directory: automated_tests/e2e-cypress
+          spec: cypress/e2e/regression_testing/*.cy.js
