@@ -16,7 +16,6 @@ jobs:
       - name: Docker Compose Up
         run: |
           nohup docker compose up &
-          exit 0
           wait-on http://localhost:80
       - name: Cypress run
         uses: cypress-io/github-action@v6
