@@ -19,9 +19,9 @@ jobs:
           exit 0
           wait-on http://localhost:80
       - name: Cypress run
-          uses: cypress-io/github-action@v6
-          with:
-            working-directory: automated_tests/e2e-cypress
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: automated_tests/e2e-cypress
       # - name: Run cypress in shell
       #   run: npx cypress run --spec cypress/e2e
 
