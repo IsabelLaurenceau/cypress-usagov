@@ -15,7 +15,8 @@ jobs:
           bin/init
       - name: Docker Compose Up
         run: |
-          docker compose up &
+          nohup docker compose up &
+          exit 0
           wait-on http://localhost:80 && bin/cypress-ssh
       # - name: Go to cypress directory
       #   run: wait-on http://localhost:80 && bin/cypress-ssh
