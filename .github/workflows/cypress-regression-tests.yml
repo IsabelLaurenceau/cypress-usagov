@@ -11,8 +11,8 @@ jobs:
         run: npm install wait-on -g
       - name: Start usagov server - Make the script files executable
         run: chmod +x bin/init
-      # - name: Run bin init
-      #   run:  bin/init
+      - name: Run bin init
+        run:  bin/init
       - name: Docker Compose Up
         run: docker compose up &
       - name: Go to cypress directory
