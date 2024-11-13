@@ -14,9 +14,11 @@ jobs:
       - name: Run bin init
         run:  bin/init
       - name: Docker Compose Up
-        run: docker compose up &
-      - name: Go to cypress directory
-        run: wait-on http://localhost:80 && bin/cypress-ssh
+        run: |
+          docker compose up &
+          wait-on http://localhost:80 && bin/cypress-ssh
+      # - name: Go to cypress directory
+      #   run: wait-on http://localhost:80 && bin/cypress-ssh
       - name: Run cypress in shell
         run: npx cypress run --spec cypress/e2e
 
