@@ -7,10 +7,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install wait-on
+        run: npm install wait-on
       - name: Start usagov server - Make the script files executable
         run: chmod +x bin/init
-      - name: Run bin init
-        run:  bin/init
+      # - name: Run bin init
+      #   run:  bin/init
       - name: Docker Compose Up
         run: docker compose up &
       - name: Go to cypress directory
