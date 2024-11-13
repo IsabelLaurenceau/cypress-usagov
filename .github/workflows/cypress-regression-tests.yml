@@ -9,18 +9,12 @@ jobs:
         uses: actions/checkout@v4
       - name: Start usagov server - Make the script files executable
         run: chmod +x bin/init
-      #can i make bin/init faster/cached for this?
       - name: Run bin init
         run:  bin/init
       - name: Docker Compose Up
-        run: docker compose up & sleep 60
-  cypress-run:
-    name: cypress-run
-    runs-on: ubuntu-22.04
-    needs: setup
-    steps:
+        run: docker compose up &
       - name: Go to cypress directory
-        run: bin/cypress-ssh
+        run: wait-on http://localhost:80 && bin/cypress-ssh
       - name: Run cypress in shell
         run: npx cypress run --spec cypress/e2e
 
