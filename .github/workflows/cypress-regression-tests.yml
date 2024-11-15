@@ -1,7 +1,7 @@
 name: End-to-end tests
 on: workflow_dispatch
 jobs:
-  stage-regression-tests:
+  run-regression-tests:
     name: run-regression-tests
     runs-on: ubuntu-22.04
     steps:
