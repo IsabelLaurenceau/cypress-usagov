@@ -1,5 +1,5 @@
 name: End-to-end tests
-on: push
+on: workflow_dispatch
 jobs:
   run-regression-tests:
     name: run-regression-tests
