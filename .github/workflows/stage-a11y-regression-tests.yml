@@ -8,7 +8,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: set env
-        run: echo "{CYPRESS_BASE_URL}={https://beta-stage.usa.gov/}" >> $GITHUB_ENV
+        run: echo "CYPRESS_BASE_URL=https://beta-stage.usa.gov/" >> $GITHUB_ENV
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
