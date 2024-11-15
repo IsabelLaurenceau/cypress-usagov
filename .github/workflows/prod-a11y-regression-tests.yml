@@ -1,4 +1,4 @@
-name: Stage A11Y Regression Tests
+name: Prod A11Y Regression Tests
 on: workflow_dispatch
 jobs:
   run-regression-tests:
