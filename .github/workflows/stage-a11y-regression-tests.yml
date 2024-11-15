@@ -1,5 +1,5 @@
 name: Stage A11Y Regression Tests
-on: workflow_dispatch
+on: push
 jobs:
   run-regression-tests:
     name: run-regression-tests
