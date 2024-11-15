@@ -1,4 +1,4 @@
-name: End-to-end tests
+name: A11Y Regression Tests
 on: workflow_dispatch
 jobs:
   run-regression-tests:
