@@ -1,5 +1,5 @@
 name: End-to-end tests
-on: workflow_dispatch
+on: push
 jobs:
   run-regression-tests:
     name: run-regression-tests
@@ -7,6 +7,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      # - name: Install wait-on
+      #   run: npm install wait-on -g
+      # - name: Start usagov server
+      #   run: |
+      #     chmod +x bin/init
+      #     bin/init
+      # - name: Docker Compose Up
+      #   run: |
+      #     nohup docker compose up &
+      #     wait-on http://localhost:80
+      # - name: Update database
+      #   run: |
+      #     bin/db-update
+      #     bin/drupal-update
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
