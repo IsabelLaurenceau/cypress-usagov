@@ -51,7 +51,7 @@ paths.forEach((path, idx) => {
 
       // Origin URL should now be connect.usa.gov
       const sentArgs = { email: validEmail };
-      cy.origin(emails[idx], { args: sentArgs }, ({ email }) => {
+      cy.visit(emails[idx], { args: sentArgs }, ({ email }) => {
         cy.get("input").filter('[name="email"]').should("have.value", email);
       });
 
@@ -62,7 +62,7 @@ paths.forEach((path, idx) => {
       cy.get(".usa-sign-up").find('button[type="submit"]').click();
 
       // Origin URL should now be connect.usa.gov
-      cy.origin(emails[idx], { args: sentArgs }, ({ email }) => {
+      cy.visit(emails[idx], { args: sentArgs }, ({ email }) => {
         cy.get("input").filter('[name="email"]').should("have.value", email);
       });
     });
