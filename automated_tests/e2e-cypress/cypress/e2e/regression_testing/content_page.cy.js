@@ -127,7 +127,7 @@ paths.forEach((path, idx) => {
           });
       }
     });
-    it(`BTE/S 31: ${lang} toggle appears on page and takes you to ${lang} page`, () => {
+    it(`${testName} 31: ${lang} toggle appears on page and takes you to ${lang} page`, () => {
       cy.get(".language-link").click();
       cy.url().should("include", languageTests[idx]);
     });
@@ -149,6 +149,16 @@ paths.forEach((path, idx) => {
         "disaster-assistance",
         "eses/requisitos-viaje-ninos-menores-de-edad",
       ];
+
+      let origin;
+      if (env == "local") {
+        origin = "http://cms-usagov.docker.local";
+      } else if (env == "stage") {
+        origin = "https://beta-stage.usa.gov";
+      } else {
+        origin = "https://usa.gov";
+      }
+
       cy.get(".additional_body_info")
         .find("#sm-share")
         .should("exist")
@@ -157,21 +167,21 @@ paths.forEach((path, idx) => {
         .should(
           "have.attr",
           "href",
-          `https://www.facebook.com/sharer/sharer.php?u=http://cms-usagov.docker.local/${facebook[idx]}&v=3`,
+          `https://www.facebook.com/sharer/sharer.php?u=${origin}/${facebook[idx]}&v=3`,
         )
         .get("div.share-icons>a")
         .eq(1)
         .should(
           "have.attr",
           "href",
-          `https://twitter.com/intent/tweet?source=webclient&text=http://cms-usagov.docker.local/${twitter[idx]}`,
+          `https://twitter.com/intent/tweet?source=webclient&text=${origin}/${twitter[idx]}`,
         )
         .get("div.share-icons>a")
         .eq(2)
         .should(
           "have.attr",
           "href",
-          `mailto:?subject=http://cms-usagov.docker.local/${mail[idx]}`,
+          `mailto:?subject=${origin}/${mail[idx]}`,
         );
     });
     it(`${testName} 34: Do you have a question block appears at bottom of content page with icons and links to phone and chat`, () => {
