@@ -1,13 +1,4 @@
 const paths = ["/", "/es"];
-let env;
-
-if (window.location.hostname == "cms-usagov.docker.local") {
-  env = "local";
-} else if (window.location.hostname == "beta-stage.usa") {
-  env = "stage";
-} else {
-  env = "prod";
-}
 
 paths.forEach((path) => {
   let lang;
@@ -64,20 +55,34 @@ paths.forEach((path) => {
           expect(href).to.equal(expectedHref);
         });
     });
-    it(`${testName} 4: Español toggle appears and links to Spanish homepage`, () => {
-      let expectedHref;
-      if (path === "/") {
-        env == "local" ? expectedHref = "/es" : expectedHref = "/es/";
-      } else {
-        expectedHref = "/";
-      }
 
-      cy.get("header")
-        .find("a.language-link")
-        .invoke("attr", "href")
-        .then((href) => {
-          expect(href).to.equal(expectedHref);
-        });
+    it(`${testName} 4: Español toggle appears and links to Spanish homepage`, () => {
+      let env;
+      let expectedHref;
+      cy.url().then((cyURL) => {
+        if (cyURL.includes("cms-usagov.docker.local")) {
+          env = "local";
+        } else if (cyURL.includes("beta-stage.usa")) {
+          env = "stage";
+        } else {
+          env = "prod";
+        }
+
+        if (path === "/") {
+          expectedHref = env == "local" ?  = "/es" : "/es/";
+        } else {
+          expectedHref = "/";
+        }
+
+        cy.get("header")
+          .find("a.language-link")
+          .invoke("attr", "href")
+          .then((href) => {
+            expect(href).to.equal(expectedHref);
+          });
+
+      });
+
     });
     it(`${testName} 5: Search bar appears with search icon in header region; can successfully complete search`, () => {
       const typedText = "housing";
