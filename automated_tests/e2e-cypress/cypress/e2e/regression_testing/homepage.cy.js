@@ -69,7 +69,7 @@ paths.forEach((path) => {
         }
 
         if (path === "/") {
-          expectedHref = env == "local" ?  = "/es" : "/es/";
+          expectedHref = env == "local" ? "/es" : "/es/";
         } else {
           expectedHref = "/";
         }
