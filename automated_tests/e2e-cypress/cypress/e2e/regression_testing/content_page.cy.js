@@ -127,7 +127,6 @@ paths.forEach((path, idx) => {
     //   cy.get(".additional_body_info").find("#last-updated").should("exist");
     // });
     it(`${testName} 33: Share this page function works correctly for facebook, twitter, and email`, () => {
-
       // test links for each social
       const facebook = [
         "disaster-assistance",
@@ -151,28 +150,32 @@ paths.forEach((path, idx) => {
         } else {
           origin = "https://usa.gov";
         }
-      })
 
-      cy.get(".additional_body_info")
-        .find("#sm-share")
-        .should("exist")
-        .get("div.share-icons>a")
-        .eq(0)
-        .should(
-          "have.attr",
-          "href",
-          `https://www.facebook.com/sharer/sharer.php?u=${origin}/${facebook[idx]}&v=3`,
-        )
-        .get("div.share-icons>a")
-        .eq(1)
-        .should(
-          "have.attr",
-          "href",
-          `https://twitter.com/intent/tweet?source=webclient&text=${origin}/${twitter[idx]}`,
-        )
-        .get("div.share-icons>a")
-        .eq(2)
-        .should("have.attr", "href", `mailto:?subject=${origin}/${mail[idx]}`);
+        cy.get(".additional_body_info")
+          .find("#sm-share")
+          .should("exist")
+          .get("div.share-icons>a")
+          .eq(0)
+          .should(
+            "have.attr",
+            "href",
+            `https://www.facebook.com/sharer/sharer.php?u=${origin}/${facebook[idx]}&v=3`,
+          )
+          .get("div.share-icons>a")
+          .eq(1)
+          .should(
+            "have.attr",
+            "href",
+            `https://twitter.com/intent/tweet?source=webclient&text=${origin}/${twitter[idx]}`,
+          )
+          .get("div.share-icons>a")
+          .eq(2)
+          .should(
+            "have.attr",
+            "href",
+            `mailto:?subject=${origin}/${mail[idx]}`,
+          );
+      });
     });
     // it(`${testName} 34: Do you have a question block appears at bottom of content page with icons and links to phone and chat`, () => {
     //   // test question box
