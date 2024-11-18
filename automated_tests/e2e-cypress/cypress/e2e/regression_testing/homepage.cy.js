@@ -97,11 +97,7 @@ paths.forEach((path) => {
           cy.wrap(input).type("{enter}");
         });
 
-      // Origin URL should now be search.gov
-      const sentArgs = { query: typedText };
-      cy.visit("https://search.usa.gov/", { args: sentArgs }, ({ query }) => {
-        cy.get("#search-field").should("have.value", "housing");
-      });
+      cy.get("#search-field").should("have.value", "housing");
 
       // Go back to localhost to test search icon
       cy.visit("/");
@@ -112,11 +108,7 @@ paths.forEach((path) => {
         .should("have.attr", "alt", "Search");
 
       cy.get("header").find("#search-field-small").next().click();
-
-      // Verify URL is search.gov
-      cy.visit("https://search.usa.gov/", () => {
-        cy.url().should("include", "search.usa.gov");
-      });
+      cy.url().should("include", "search.usa.gov");
     });
 
     // it(`${testName} 6: Main menu appears after header; links work appropriately. All topics link goes down the page.`, () => {
