@@ -142,15 +142,16 @@ paths.forEach((path, idx) => {
         "eses/requisitos-viaje-ninos-menores-de-edad",
       ];
 
-      let cyURL = cy.url();
       let origin;
-      if (cyURL.includes("cms-usagov.docker.local")) {
-        origin = "http://cms-usagov.docker.local";
-      } else if (cyURL.includes("beta-stage.usa")) {
-        origin = "https://beta-stage.usa.gov";
-      } else {
-        origin = "https://usa.gov";
-      }
+      cy.url().then((cyURL) => {
+        if (cyURL.includes("cms-usagov.docker.local")) {
+          origin = "http://cms-usagov.docker.local";
+        } else if (cyURL.includes("beta-stage.usa")) {
+          origin = "https://beta-stage.usa.gov";
+        } else {
+          origin = "https://usa.gov";
+        }
+      })
 
       cy.get(".additional_body_info")
         .find("#sm-share")
