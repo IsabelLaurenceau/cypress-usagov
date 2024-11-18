@@ -148,7 +148,7 @@ paths.forEach((path, idx) => {
         } else if (cyURL.includes("beta-stage.usa")) {
           origin = "https://beta-stage.usa.gov";
         } else {
-          origin = "https://usa.gov";
+          origin = "https://www.usa.gov";
         }
 
         cy.get(".additional_body_info")
