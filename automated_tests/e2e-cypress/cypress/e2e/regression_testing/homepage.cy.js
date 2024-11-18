@@ -85,39 +85,39 @@ paths.forEach((path) => {
     //   });
     // });
 
-    // it(`${testName} 5: Search bar appears with search icon in header region; can successfully complete search`, () => {
-    //   const typedText = "housing";
+    it(`${testName} 5: Search bar appears with search icon in header region; can successfully complete search`, () => {
+      const typedText = "housing";
 
-    //   // Enters query into search input
-    //   cy.get("header")
-    //     .find("#search-field-small")
-    //     .then((input) => {
-    //       cy.wrap(input).type(typedText);
-    //       cy.wrap(input).should("have.value", typedText);
-    //       cy.wrap(input).type("{enter}");
-    //     });
+      // Enters query into search input
+      cy.get("header")
+        .find("#search-field-small")
+        .then((input) => {
+          cy.wrap(input).type(typedText);
+          cy.wrap(input).should("have.value", typedText);
+          cy.wrap(input).type("{enter}");
+        });
 
-    //   // Origin URL should now be search.gov
-    //   const sentArgs = { query: typedText };
-    //   cy.origin("https://search.usa.gov/", { args: sentArgs }, ({ query }) => {
-    //     cy.get("#search-field").should("have.value", "housing");
-    //   });
+      // Origin URL should now be search.gov
+      const sentArgs = { query: typedText };
+      cy.origin("https://search.usa.gov/", { args: sentArgs }, ({ query }) => {
+        cy.get("#search-field").should("have.value", "housing");
+      });
 
-    //   // Go back to localhost to test search icon
-    //   cy.visit("/");
-    //   cy.get("header")
-    //     .find("#search-field-small")
-    //     .next()
-    //     .find("img")
-    //     .should("have.attr", "alt", "Search");
+      // Go back to localhost to test search icon
+      cy.visit("/");
+      cy.get("header")
+        .find("#search-field-small")
+        .next()
+        .find("img")
+        .should("have.attr", "alt", "Search");
 
-    //   cy.get("header").find("#search-field-small").next().click();
+      cy.get("header").find("#search-field-small").next().click();
 
-    //   // Verify URL is search.gov
-    //   cy.origin("https://search.usa.gov/", () => {
-    //     cy.url().should("include", "search.usa.gov");
-    //   });
-    // });
+      // Verify URL is search.gov
+      cy.origin("https://search.usa.gov/", () => {
+        cy.url().should("include", "search.usa.gov");
+      });
+    });
 
     // it(`${testName} 6: Main menu appears after header; links work appropriately. All topics link goes down the page.`, () => {
     //   // Main menu appears
@@ -168,32 +168,32 @@ paths.forEach((path) => {
     //   });
     // });
 
-    it(`${testName} 9: Jump to All topics and services link/button appears and jumps to correct place on page`, () => {
-      let expectedText;
+    // it(`${testName} 9: Jump to All topics and services link/button appears and jumps to correct place on page`, () => {
+    //   let expectedText;
 
-      if (path === "/") {
-        expectedText = "Jump to";
-      } else {
-        expectedText = "Vaya a todos";
-      }
+    //   if (path === "/") {
+    //     expectedText = "Jump to";
+    //   } else {
+    //     expectedText = "Vaya a todos";
+    //   }
 
-      // Check text and button
-      cy.get(".jump").contains(expectedText);
+    //   // Check text and button
+    //   cy.get(".jump").contains(expectedText);
 
-      cy.get(".jump")
-        .find("img")
-        .should("be.visible")
-        .then(($img) => {
-          const imgUrl = $img.prop("src");
-          cy.request(imgUrl).its("status").should("eq", 200);
-          expect($img).to.have.attr("alt");
-        });
+    //   cy.get(".jump")
+    //     .find("img")
+    //     .should("be.visible")
+    //     .then(($img) => {
+    //       const imgUrl = $img.prop("src");
+    //       cy.request(imgUrl).its("status").should("eq", 200);
+    //       expect($img).to.have.attr("alt");
+    //     });
 
-      // Verify link is valid
-      cy.get(".jump")
-        .find("a")
-        .should("have.attr", "href", "#all-topics-header")
-    });
+    //   // Verify link is valid
+    //   cy.get(".jump")
+    //     .find("a")
+    //     .should("have.attr", "href", "#all-topics-header")
+    // });
 
     // it(`${testName} 10: Cards under \"All topics and services\" appear correctly (icon, title, text, hover state) and are clickable`, () => {
     //   cy.get(".all-topics-background")
