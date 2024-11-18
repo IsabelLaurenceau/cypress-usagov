@@ -17,8 +17,6 @@ if (window.location.hostname == "cms-usagov.docker.local") {
   env = "prod";
 }
 
-console.log(`YOU ARE TESTING: ${window.location.hostname}`);
-
 paths.forEach((path, idx) => {
   let lang;
   let testName;
@@ -138,6 +136,7 @@ paths.forEach((path, idx) => {
       cy.get(".additional_body_info").find("#last-updated").should("exist");
     });
     it(`${testName} 33: Share this page function works correctly for facebook, twitter, and email`, () => {
+      cy.log(`YOU ARE TESTING: ${window.location.hostname}`);
       // test links for each social
       const facebook = [
         "disaster-assistance",
