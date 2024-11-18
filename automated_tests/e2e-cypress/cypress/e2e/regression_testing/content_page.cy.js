@@ -8,12 +8,24 @@ const languageTests = [
   "/travel-documents-children",
 ];
 
+if (window.location.hostname == "cms-usagov.docker.local") {
+  env = "local";
+} else if (window.location.hostname == "beta-stage.usa") {
+  env = "stage";
+} else {
+  env = "prod";
+}
+
+
 paths.forEach((path, idx) => {
   let lang;
+  let testName;
   if (path === "/disaster-assistance") {
     lang = "English";
+    testName = "BTE";
   } else {
     lang = "Español";
+    testName = "BTS";
   }
 
   describe(`${lang} Content Page`, () => {
@@ -24,7 +36,7 @@ paths.forEach((path, idx) => {
       cy.injectAxe();
     });
 
-    it("BTE/S 28: Left menu appears on page and indicates the page you are on", () => {
+    it(`${testName} 28: Left menu appears on page and indicates the page you are on`, () => {
       cy.get(".usa-sidenav").should("be.visible");
 
       // Menu indicates what page you are on
@@ -41,7 +53,7 @@ paths.forEach((path, idx) => {
             });
         });
     });
-    it("BTE/S 29: Breadcrumb appears at top of page and indicates correct section", () => {
+    it(`${testName} 29: Breadcrumb appears at top of page and indicates correct section`, () => {
       cy.get(".usa-breadcrumb__list")
         .find("li")
         .first()
@@ -63,7 +75,7 @@ paths.forEach((path, idx) => {
             });
         });
     });
-    it("BTE/S 30: Page titles and headings are formatted correctly", () => {
+    it(`${testName} 30: Page titles and headings are formatted correctly`, () => {
       // CSS style checks
 
       // h1
@@ -119,11 +131,11 @@ paths.forEach((path, idx) => {
       cy.get(".language-link").click();
       cy.url().should("include", languageTests[idx]);
     });
-    it("BTE/S 32: Last updated date appears at bottom of content with correct padding above it", () => {
+    it(`${testName} 32: Last updated date appears at bottom of content with correct padding above it`, () => {
       // make sure date appears
       cy.get(".additional_body_info").find("#last-updated").should("exist");
     });
-    it("BTE/S 33: Share this page function works correctly for facebook, twitter, and email", () => {
+    it(`${testName} 33: Share this page function works correctly for facebook, twitter, and email`, () => {
       // test links for each social
       const facebook = [
         "disaster-assistance",
@@ -162,7 +174,7 @@ paths.forEach((path, idx) => {
           `mailto:?subject=http://cms-usagov.docker.local/${mail[idx]}`,
         );
     });
-    it("BTE/S 34: Do you have a question block appears at bottom of content page with icons and links to phone and chat", () => {
+    it(`${testName} 34: Do you have a question block appears at bottom of content page with icons and links to phone and chat`, () => {
       // test question box
       const phones = ["/phone", "/es/centro-de-llamadas"];
       cy.get(".additional_body_info")
@@ -171,7 +183,7 @@ paths.forEach((path, idx) => {
         .find("a")
         .should("have.attr", "href", phones[idx]);
     });
-    it("BTE/S 36: Back to top button", () => {
+    it(`${testName} 36: Back to top button`, () => {
       //test back to top button
       cy.scrollTo("bottom")
         .get("#back-to-top")
