@@ -142,7 +142,7 @@ paths.forEach((path, idx) => {
         "eses/requisitos-viaje-ninos-menores-de-edad",
       ];
 
-      let origin;
+      var origin;
       cy.url().then((cyURL) => {
         if (cyURL.includes("cms-usagov.docker.local")) {
           origin = "http://cms-usagov.docker.local";
