@@ -189,10 +189,10 @@ paths.forEach((path) => {
           expect($img).to.have.attr("alt");
         });
 
-      // // Verify link is valid
-      // cy.get(".jump").each((el) => {
-      //   cy.visit(el.find("a").attr("href"));
-      //   cy.url().should("include", "#all-topics-header");
+      // Verify link is valid
+      cy.get(".jump").each((el) => {
+        cy.visit(el.find("a").attr("href"));
+        cy.url().should("include", "#all-topics-header");
 
       //   cy.visit("/");
       // });
