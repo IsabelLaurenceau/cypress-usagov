@@ -28,6 +28,7 @@ paths.forEach((path) => {
       // Accordion content should be visible
       cy.get(".usa-banner__content").should("be.visible");
     });
+
     it(`${testName} 2: USAGov logo appears in the header area`, () => {
       cy.get("header")
         .find(".usa-logo")
@@ -38,6 +39,7 @@ paths.forEach((path) => {
           expect($img).to.have.attr("alt");
         });
     });
+
     it(`${testName} 3: Link with Contact Center number appears in header area and links to contact page`, () => {
       let expectedHref;
 
@@ -80,9 +82,7 @@ paths.forEach((path) => {
           .then((href) => {
             expect(href).to.equal(expectedHref);
           });
-
       });
-
     });
 
     it(`${testName} 5: Search bar appears with search icon in header region; can successfully complete search`, () => {
@@ -118,6 +118,7 @@ paths.forEach((path) => {
         cy.url().should("include", "search.usa.gov");
       });
     });
+
     it(`${testName} 6: Main menu appears after header; links work appropriately. All topics link goes down the page.`, () => {
       // Main menu appears
       cy.get(".usa-nav__primary").should("be.visible");
@@ -127,6 +128,7 @@ paths.forEach((path) => {
         cy.request($el.prop("href")).its("status").should("eq", 200);
       });
     });
+
     it(`${testName} 7: Banner area/image appears with Welcome text box`, () => {
       // TODO: test this in other viewports
       cy.get(".banner-div")
@@ -138,6 +140,7 @@ paths.forEach((path) => {
 
       cy.get(".welcome-box").should("be.visible");
     });
+
     it(`${testName} 8: How do I area appears correctly with links to four pages/topics`, () => {
       let expectedText;
 
@@ -164,6 +167,7 @@ paths.forEach((path) => {
         cy.go("back");
       });
     });
+
     it(`${testName} 9: Jump to All topics and services link/button appears and jumps to correct place on page`, () => {
       let expectedText;
 
@@ -193,6 +197,7 @@ paths.forEach((path) => {
         cy.visit("/");
       });
     });
+
     it(`${testName} 10: Cards under \"All topics and services\" appear correctly (icon, title, text, hover state) and are clickable`, () => {
       cy.get(".all-topics-background")
         .find(".homepage-card")
