@@ -17,7 +17,6 @@ if (window.location.hostname == "cms-usagov.docker.local") {
   env = "prod";
 }
 
-
 paths.forEach((path, idx) => {
   let lang;
   let testName;
@@ -179,11 +178,7 @@ paths.forEach((path, idx) => {
         )
         .get("div.share-icons>a")
         .eq(2)
-        .should(
-          "have.attr",
-          "href",
-          `mailto:?subject=${origin}/${mail[idx]}`,
-        );
+        .should("have.attr", "href", `mailto:?subject=${origin}/${mail[idx]}`);
     });
     it(`${testName} 34: Do you have a question block appears at bottom of content page with icons and links to phone and chat`, () => {
       // test question box
