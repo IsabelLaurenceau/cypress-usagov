@@ -196,7 +196,7 @@ paths.forEach((path) => {
         // cy.url().should("include", "#all-topics-header");
 
         // cy.visit("/");
-      });
+      // });
     });
 
     // it(`${testName} 10: Cards under \"All topics and services\" appear correctly (icon, title, text, hover state) and are clickable`, () => {
