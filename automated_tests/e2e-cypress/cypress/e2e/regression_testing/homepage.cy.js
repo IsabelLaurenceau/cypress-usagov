@@ -99,7 +99,7 @@ paths.forEach((path) => {
 
       // Origin URL should now be search.gov
       const sentArgs = { query: typedText };
-      cy.origin("https://search.usa.gov/", { args: sentArgs }, ({ query }) => {
+      cy.visit("https://search.usa.gov/", { args: sentArgs }, ({ query }) => {
         cy.get("#search-field").should("have.value", "housing");
       });
 
@@ -114,7 +114,7 @@ paths.forEach((path) => {
       cy.get("header").find("#search-field-small").next().click();
 
       // Verify URL is search.gov
-      cy.origin("https://search.usa.gov/", () => {
+      cy.visit("https://search.usa.gov/", () => {
         cy.url().should("include", "search.usa.gov");
       });
     });
