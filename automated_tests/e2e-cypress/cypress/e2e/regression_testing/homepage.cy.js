@@ -192,11 +192,7 @@ paths.forEach((path) => {
       // Verify link is valid
       cy.get(".jump")
         .find("a")
-        .should("have.attr", "href")
-        // cy.url().should("include", "#all-topics-header");
-
-        // cy.visit("/");
-      // });
+        .should("have.attr", "href", "#all-topics-header")
     });
 
     // it(`${testName} 10: Cards under \"All topics and services\" appear correctly (icon, title, text, hover state) and are clickable`, () => {
