@@ -84,6 +84,7 @@ paths.forEach((path) => {
       });
 
     });
+
     it(`${testName} 5: Search bar appears with search icon in header region; can successfully complete search`, () => {
       const typedText = "housing";
 
