@@ -17,6 +17,8 @@ if (window.location.hostname == "cms-usagov.docker.local") {
   env = "prod";
 }
 
+console.log(`YOU ARE TESTING: ${window.location.hostname}`);
+
 paths.forEach((path, idx) => {
   let lang;
   let testName;
