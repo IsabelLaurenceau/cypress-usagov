@@ -180,14 +180,14 @@ paths.forEach((path) => {
       // Check text and button
       cy.get(".jump").contains(expectedText);
 
-      // cy.get(".jump")
-      //   .find("img")
-      //   .should("be.visible")
-      //   .then(($img) => {
-      //     const imgUrl = $img.prop("src");
-      //     cy.request(imgUrl).its("status").should("eq", 200);
-      //     expect($img).to.have.attr("alt");
-      //   });
+      cy.get(".jump")
+        .find("img")
+        .should("be.visible")
+        .then(($img) => {
+          const imgUrl = $img.prop("src");
+          cy.request(imgUrl).its("status").should("eq", 200);
+          expect($img).to.have.attr("alt");
+        });
 
       // // Verify link is valid
       // cy.get(".jump").each((el) => {
