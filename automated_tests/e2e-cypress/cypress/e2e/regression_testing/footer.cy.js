@@ -3,17 +3,20 @@ const paths = ["/", "/es"];
 
 paths.forEach((path, idx) => {
   let lang;
+  let testName;
   if (path === "/") {
     lang = "English";
+    testName = "BTE";
   } else {
     lang = "Español";
+    testName = "BTS";
   }
   describe(`${lang} Footer`, () => {
     beforeEach(() => {
       // Set base URL
       cy.visit(path);
     });
-    it(`BTE/S 12: Footer links appear and work appropriately`, () => {
+    it(`${testName} 12: Footer links appear and work appropriately`, () => {
       cy.get(".usa-footer__nav")
         .find("a")
         .not('[href="/website-analytics/"]')
@@ -25,7 +28,7 @@ paths.forEach((path, idx) => {
             });
         });
     });
-    it("BTE/S 13: Email subscription form appears in footer and works appropriately", () => {
+    it(`${testName} 13: Email subscription form appears in footer and works appropriately`, () => {
       const validEmail = "test@usa.gov";
       const invalidEmails = ["test@#$1123", "test2@", "@test3.com"];
       const emails = [
@@ -63,7 +66,7 @@ paths.forEach((path, idx) => {
         cy.get("input").filter('[name="email"]').should("have.value", email);
       });
     });
-    it("BTE/S 14: Social media icons appear in footer and link to correct places", () => {
+    it(`${testName} 14: Social media icons appear in footer and link to correct places`, () => {
       for (const social of socials) {
         //if spanish check that there are links
         if (path === "/es" && social.linkEs.length <= 0) {
@@ -91,13 +94,13 @@ paths.forEach((path, idx) => {
         }
       }
     });
-    it("BTE/S 15: Contact Center information appears in footer and phone number links to /phone", () => {
+    it(`${testName} 15: Contact Center information appears in footer and phone number links to /phone`, () => {
       const phones = ["/phone", "/es/llamenos"];
       cy.get("#footer-phone").find("a").click();
 
       cy.url().should("include", phones[idx]);
     });
-    it("BTE/S 16: Subfooter indicating USAGov is official site appears at very bottom", () => {
+    it(`${testName} 16: Subfooter indicating USAGov is official site appears at very bottom`, () => {
       const identifier = ["official guide", "la guía oficial"];
       cy.get(".usa-footer")
         .find(".usa-identifier")
