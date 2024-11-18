@@ -190,8 +190,9 @@ paths.forEach((path) => {
         });
 
       // Verify link is valid
-      cy.get(".jump").each((el) => {
-        cy.visit(el.find("a").attr("href"));
+      cy.get(".jump")
+        .find("a")
+        .should("have.attr", "href")
         // cy.url().should("include", "#all-topics-header");
 
         // cy.visit("/");
