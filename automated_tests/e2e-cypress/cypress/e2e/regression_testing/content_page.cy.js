@@ -8,6 +8,7 @@ const languageTests = [
   "/travel-documents-children",
 ];
 
+let env;
 if (window.location.hostname == "cms-usagov.docker.local") {
   env = "local";
 } else if (window.location.hostname == "beta-stage.usa") {
